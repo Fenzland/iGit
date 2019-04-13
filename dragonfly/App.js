@@ -1,4 +1,6 @@
 import { httpServer, path, } from './modules.deno.js';
+import Request from './http/Request.js';
+import Response from './http/Response.js';
 
 /**
  * main Application class of Dragonfly
@@ -28,7 +30,13 @@ export default class App
 	{
 		for await( const denoRequest of httpServer.serve( host, ) )
 		{
-			denoRequest.respond();
+			const request= new Request( denoRequest, );
+			
+			const route= this.router.dispatch( request, );
+			
+			const response= await route.run( request, );
+			
+			denoRequest.respond( response, );
 		}
 	}
 }
