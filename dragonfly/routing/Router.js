@@ -35,7 +35,17 @@ export default class Router
 	 */
 	dispatch( request, )
 	{
-		return this.routes[0];
+		return this.routes.reduce( ( result, route, )=> {
+			const level= route.match( request, );
+			
+			if( level > result.level )
+			{
+				result.level= level;
+				result.route= route;
+			}
+			
+			return result;
+		}, { level: 0, route: this.failback, }, ).route;
 	}
 }
 
