@@ -1,4 +1,4 @@
-import { path, } from '../packages.js';
+import { path, } from '../modules.deno.js';
 import Route from './Route.js';
 import Response from '../http/Response.js';
 
