@@ -1,4 +1,5 @@
 import Query from './Query.js';
+import { AcceptArray, } from './accept.js';
 
 export default class Request
 {
@@ -17,5 +18,7 @@ export default class Request
 		
 		this.path= path;
 		this.query= new Query( query.length? query[0]: '', );
+		
+		this.accept= new AcceptArray( this.headers.get( 'Accept', ), path, );
 	}
 }
