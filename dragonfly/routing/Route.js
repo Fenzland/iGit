@@ -19,4 +19,40 @@ export default class Route
 		this.accept= accept;
 		this.controller= controller;
 	}
+	
+	/**
+	 * Match the request for a match level.
+	 * 
+	 * @param request {Request}
+	 * 
+	 * @return (number)  match level
+	 */
+	match( request, )
+	{
+		let level= 1;
+		
+		// Path: strict string match is prior to regexp match.
+		level*= (
+			this.path instanceof RegExp? 
+			(this.path.test( request.path, )? 1: 0): 
+			(this.path === request.path? 2: 0)
+		);
+		
+		if( !level )
+			return 0;
+		
+		// Method: strict match is prior to *.
+		level*= this.method === '*'? 1: request.method === this.method? 2: 0;
+		
+		if( !level )
+			return 0;
+		
+		// Accept: strict match is prior to *.
+		level*= request.accept.match( this.accept, );
+		
+		if( !level )
+			return 0;
+		
+		return level;
+	}
 }
