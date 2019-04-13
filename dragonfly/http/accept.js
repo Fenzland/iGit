@@ -34,6 +34,27 @@ export class AcceptArray extends Array
 	}
 	
 	/**
+	 * Match the mime for a match level.
+	 * 
+	 * @param mime (string)
+	 * 
+	 * @return (number)  match level
+	 */
+	match( mime, )
+	{
+		const [ type, subtype=null, ]= mime.split( '/', );
+		
+		if( !subtype )
+			throw new Error( `MIME type ${mime} is invalid`, );
+		
+		return this.reduce( ( previous, item, )=> {
+			const current= item.matchSplited( type, subtype, );
+			
+			return Math.max( previous, current, );
+		}, 0, );
+	}
+	
+	/**
 	 * Convert accept to HTTP Request header string.
 	 * 
 	 * @return (string)
@@ -59,6 +80,48 @@ export class AcceptItem
 		
 		if( !this.subtype )
 			throw new Error( `MIME type ${mime} is invalid`, );
+	}
+	
+	/**
+	 * Match the mime for a match level.
+	 * 
+	 * @param mime (string)
+	 * 
+	 * @return (number)  match level
+	 */
+	match( mime, )
+	{
+		const [ type, subtype=null, ]= mime.split( '/', );
+		
+		if( !subtype )
+			throw new Error( `MIME type ${mime} is invalid`, );
+		
+		return this.matchSplited( type, subtype, );
+	}
+	
+	/**
+	 * Match the mime(type, subtype) for a match level.
+	 * 
+	 * @param type    (string)
+	 * @param subtype (string)
+	 * 
+	 * @return (number)  match level
+	 */
+	matchSplited( type, subtype, )
+	{
+		if( this.mime === '*/*' )
+			return 1;
+		else
+		if( type !== this.type )
+			return 0;
+		else
+		if( this.subtype === '*' )
+			return 2
+		else
+		if( subtype !== this.subtype )
+			return 0;
+		else
+			return 4;
 	}
 	
 	/**
