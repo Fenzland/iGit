@@ -55,4 +55,78 @@ export default class Route
 		
 		return level;
 	}
+	
+	/**
+	 * Run the route.
+	 * 
+	 * @param request {Request}
+	 * 
+	 * @return {Response}
+	 */
+	async run( request, )
+	{
+		let controller, responded;
+		
+		if( this.controller instanceof Function )
+			controller= this.controller;
+		else
+		{
+			const importing= import(this.controller).catch( e=> {
+				throw new Error( `There is something wrong with controller [${this.controller}]:\n\n${e}`, );
+			}, );
+			
+			controller= (await importing).default;
+		}
+		
+		try
+		{
+			responded= await controller( { request, Response, }, );
+		}
+		catch( e )
+		{
+			responded= e;
+		}
+		
+		if( responded instanceof Response )
+			return responded;
+		
+		return this.makeResponse( responded, );
+	}
+	
+	/**
+	 * Make response depends on accept
+	 * 
+	 * @param responded <any>
+	 * 
+	 * @return {Response}
+	 */
+	makeResponse( responded, )
+	{
+		switch( this.accept )
+		{
+			default:
+			case 'text/html':
+				return Response.newHTML( `${responded}`, );
+			break;
+			
+			case 'application/json':
+				return new Response( {
+					body: JSON.stringify( responded, ),
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				}, );
+			break;
+			
+			case 'text/javascript':
+			case 'application/javascript':
+				return new Response( {
+					body: `${responded}`,
+					headers: {
+						'Content-Type': 'application/javascript',
+					},
+				}, );
+			break;
+		}
+	}
 }
