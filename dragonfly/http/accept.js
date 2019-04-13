@@ -1,3 +1,4 @@
+import { ext2mime, } from './mime.js';
 
 export class AcceptArray extends Array
 {
@@ -5,10 +6,20 @@ export class AcceptArray extends Array
 	 * Construct a accept array
 	 * 
 	 * @param acceptString  (string)  Request header Accept
+	 * @param ?path         (string)  Request path, for extension check
 	 */
-	constructor( acceptString, )
+	constructor( acceptString, path='/', )
 	{
 		super();
+		
+		const ext= (x=> x? x[0]: '')( path.match( /\.\w+$/, ), );
+		if( ext )
+		{
+			const mime= ext2mime( ext, );
+			
+			if( mime )
+				this.push( new AcceptItem( mime, ), );
+		}
 		
 		acceptString.split( ',', ).forEach( item=> {
 			let [ mime, quality=1, ]= item.split( ';q=', );
