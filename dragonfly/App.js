@@ -1,4 +1,4 @@
-import { httpServer, } from './modules.deno.js';
+import { httpServer, path, } from './modules.deno.js';
 
 /**
  * main Application class of Dragonfly
@@ -11,7 +11,7 @@ export default class App
 	 * @param 0.router  {Router}
 	 * @param 0.webRoot (string)
 	 */
-	constructor( { router, webRoot, }, )
+	constructor( { router, webRoot=defaultWebRoot(), }, )
 	{
 		this.router= router;
 		this.webRoot= webRoot;
@@ -31,4 +31,16 @@ export default class App
 			denoRequest.respond();
 		}
 	}
+}
+
+/**
+ * Generate the default web root
+ * 
+ * @return (string)
+ */
+function defaultWebRoot()
+{
+	const file= path.traceBack( 2, );
+	
+	return path.dirname( file, ).replace( /^file:\/\//, '', );
 }
