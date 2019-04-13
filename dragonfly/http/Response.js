@@ -21,4 +21,20 @@ export default class Response
 		else
 			this.body= body;
 	}
+	
+	/**
+	 * Construct a HTML response
+	 * 
+	 * @param body       (string)
+	 * @param 1.?status  <number>
+	 * @param 1.?headers {}
+	 */
+	static newHTML( body, { status=200, }={}, )
+	{
+		const headers= {
+			'Content-Type': 'text/html;charset=utf-8',
+		};
+		
+		return new this( { status, body, headers, }, );
+	}
 }
