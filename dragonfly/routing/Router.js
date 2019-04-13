@@ -1,5 +1,6 @@
 import { path, } from '../packages.js';
 import Route from './Route.js';
+import Response from '../http/Response.js';
 
 export default class Router
 {
@@ -18,6 +19,10 @@ export default class Router
 				route.controller= controllerPath + route.controller;
 			
 			return new Route( route, );
+		}, );
+		
+		this.failback= new Route( {
+			controller: ()=> Response.newHTML( 'Not Found', { status: 404, }, ),
 		}, );
 	}
 	
