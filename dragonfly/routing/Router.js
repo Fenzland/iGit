@@ -1,3 +1,4 @@
+import { path, } from '../packages.js';
 import Route from './Route.js';
 
 export default class Router
@@ -6,10 +7,18 @@ export default class Router
 	 * Consturct a router
 	 * 
 	 * @param 0.routes          {}[]
+	 * @param 0.?controllerPath (string)
 	 */
-	constructor( { routes, }, )
+	constructor( { routes, controllerPath=defaultWebRoot(), }, )
 	{
-		this.routes= routes.map( route=> new Route( route, ), );
+		this.controllerPath=controllerPath;
+		
+		this.routes= routes.map( route=> {
+			if( typeof route.controller === 'string' )
+				route.controller= controllerPath + route.controller;
+			
+			return new Route( route, );
+		}, );
 	}
 	
 	/**
@@ -23,4 +32,16 @@ export default class Router
 	{
 		return this.routes[0];
 	}
+}
+
+/**
+ * Generate the default web root
+ * 
+ * @return (string)
+ */
+function defaultWebRoot()
+{
+	const file= path.traceBack( 2, );
+	
+	return `${path.dirname( file, )}/controllers`;
 }
