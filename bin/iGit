@@ -1,0 +1,5 @@
+#!/bin/bash
+
+deno_dir=${DENO_DIR:-$HOME/.deno}
+
+/usr/bin/env deno --allow-net --allow-read --allow-run $deno_dir/iGit/iGit.js $@;
