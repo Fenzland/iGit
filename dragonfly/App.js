@@ -61,7 +61,7 @@ export default class App
 	{
 		path= `${this.webRoot}${path}`;
 		
-		return file_exists( path, ) && await is_file( path, );
+		return (await file_exists( path, )) && (await is_file( path, ));
 	}
 }
 
