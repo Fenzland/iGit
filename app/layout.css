@@ -1,0 +1,174 @@
+:root
+{
+	width: 100%;
+	height: 100%;
+	
+	font-family: monospace;
+}
+
+body
+{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+ul
+{
+	margin: 0;
+	padding: 0;
+}
+
+li
+{
+	list-style: none;
+}
+
+body>main
+{
+	display: grid;
+	width: 100%;
+	height: 100%;
+	grid-gap: 1px;
+	grid-template-columns: 10vw auto 40vw;
+	grid-template-rows: 4em auto 40vh;
+	grid-template-areas:
+		'header header header'
+		'refs graph file-diff'
+		'content-diff content-diff content-diff'
+	;
+}
+
+body>main>header
+{
+	grid-area: header;
+}
+
+body>main>.refs
+{
+	grid-area: refs;
+}
+
+body>main>.graph
+{
+	grid-area: graph;
+}
+
+body>main>.file-diff
+{
+	grid-area: file-diff;
+}
+
+body>main>.content-diff
+{
+	grid-area: content-diff;
+}
+
+.scroll-container
+{
+	--scroll-top: 0;
+	--scroll-line-height: 1em;
+	overflow: hidden;
+	position: relative;
+}
+.scroll-container>.scroll-body
+{
+	position: absolute;
+	top: 50%;
+	transition: transform 200ms;
+	transform: translateY(calc((-0.5 - var(--scroll-top))*var(--scroll-line-height)));
+}
+
+.refs li
+{
+	margin-left: 1em;
+}
+
+.graph
+{
+	--graph-size: 2em;
+	
+	--scroll-line-height: var(--graph-size);
+}
+
+.graph .line
+{
+	display: flex;
+}
+
+.graph .line>.commit
+{
+	margin-left: 2em;
+	padding-left: 1em;
+	padding-right: 1em;
+	line-height: var(--graph-size);
+}
+
+.graph .line>.graph-line
+{
+	display: flex;
+	padding-left: calc(0.25*var(--graph-size));
+}
+
+.graph .line>.graph-line .graph-item
+{
+	width: calc(0.375*var(--graph-size));
+	height: calc(1*var(--graph-size));
+	float: left;
+	position: relative;
+}
+
+.graph .line>.graph-line .graph-item.commit::after
+{
+	content: '';
+	display: block;
+	position: absolute;
+	top: calc(0.25*var(--graph-size));
+	left: calc(-0.0625*var(--graph-size));
+	width: calc(0.5*var(--graph-size));
+	height: calc(0.5*var(--graph-size));
+	border-radius: 50%;
+}
+
+.graph .line>.graph-line .graph-item.vertical::before
+,
+.graph .line>.graph-line .graph-item.commit::before
+,
+.graph .line>.graph-line .graph-item.out::before
+,
+.graph .line>.graph-line .graph-item.back::before
+{
+	content: '';
+	display: block;
+	position: absolute;
+	top: calc(-0.0625*var(--graph-size));
+	left: calc(0.125*var(--graph-size));
+	width: calc(0.125*var(--graph-size));
+	height: calc(1.125*var(--graph-size));
+	border-radius: calc(0.05*var(--graph-size));
+}
+
+.graph .line>.graph-line .graph-item.horizon::before
+{
+	content: '';
+	display: block;
+	position: absolute;
+	top: calc(0.95*var(--graph-size));
+	left: calc(-0.25*var(--graph-size));
+	width: calc(1.1*var(--graph-size));
+	height: calc(0.1*var(--graph-size));
+}
+
+.graph .line>.graph-line .graph-item.out::before
+{
+	transform: rotate(+0.125turn);
+	top: calc(-0.1*var(--graph-size));
+	height: calc(1.2*var(--graph-size));
+}
+
+.graph .line>.graph-line .graph-item.back::before
+{
+	transform: rotate(-0.125turn);
+	top: calc(-0.1*var(--graph-size));
+	height: calc(1.2*var(--graph-size));
+}

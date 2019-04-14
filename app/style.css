@@ -1,0 +1,72 @@
+.grid-item
+{
+	transition:
+		background-color 200ms
+	;
+}
+
+.grid-item.graph.focus
+{
+	background-color: hsla(180,100%,97%,1);
+}
+
+.grid-item.graph .line>a.commit
+{
+	color: hsla(0,0%,10%,1);
+	text-decoration: none;
+	transition:
+		background-color 200ms
+		,
+		color 200ms
+	;
+}
+
+.grid-item.graph .line.focus>a.commit
+{
+	background-color: hsla(0,0%,75%,1);
+	color: hsla(0,0%,100%,1);
+}
+
+.grid-item.graph.focus .line.focus>a.commit
+{
+	background-color: hsla(210,100%,75%,1);
+	color: inherit;
+}
+
+.grid-item.graph .line>.graph-line .graph-item.commit::after
+{
+	background-color: hsla(0,0%,60%,1);
+	transition:
+		background-color 200ms
+	;
+}
+
+.grid-item.graph .line.focus>.graph-line .graph-item.commit::after
+{
+	background-color: hsla(0,0%,50%,1);
+}
+
+.grid-item.graph.focus .line.focus>.graph-line .graph-item.commit::after
+{
+	background-color: hsla(210,100%,75%,1);
+}
+
+.grid-item.graph .line>.graph-line .graph-item.vertical::before
+,
+.grid-item.graph .line>.graph-line .graph-item.commit::before
+,
+.grid-item.graph .line>.graph-line .graph-item.out::before
+,
+.grid-item.graph .line>.graph-line .graph-item.back::before
+,
+.grid-item.graph .line>.graph-line .graph-item.horizon::before
+{
+	background-color: hsla(0,0%,80%,1);
+}
+
+
+
+.grid-item.refs.focus
+{
+	background-color: hsla(120,100%,97%,1);
+}
