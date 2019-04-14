@@ -1,6 +1,7 @@
 import './init.js';
 import { file_exists, } from './dragonfly/modules.deno.js';
 import Args from './cli/Args.js';
+import { color, } from './app/modules.deno.js';
 
 const env= Deno.env();
 const args= new Args( ...Deno.args, );
@@ -38,20 +39,34 @@ const repository= (()=> {
 
 async function update()
 {
-	await runGit( 'fetch', '--all', );
+	console.log( color.blue( 'iGit is already installed, trying to update.', ), );
 	
+	console.log( 'Downloading...', );
+	await runGit( 'fetch', '--all', );
+	console.log( 'Download successful.', );
+	
+	console.log( 'Updating...', );
 	await runGit( 'checkout', '-B', 'release', 'origin/release', );
 	
 	Deno.copyFile( `${denoDir}/iGit/bin/iGit`, `${denoDir}/bin/iGit`, );
+	
+	console.log( color.green( 'Update successful. Happy Coding!', ), );
 }
 
 async function install()
 {
-	await run( 'git', 'clone', repository, gitDir, );
+	console.log( color.blue( `Starting to install ${color.green( 'iGit', )}.`, ), );
 	
+	console.log( 'Downloading...', );
+	await run( 'git', 'clone', repository, gitDir, );
+	console.log( 'Download successful.', );
+	
+	console.log( 'Installing...', );
 	await runGit( 'checkout', '-B', 'release', 'origin/release', );
 	
 	Deno.copyFile( `${denoDir}/iGit/bin/iGit`, `${denoDir}/bin/iGit`, );
+	
+	console.log( color.green( 'Installation is succeeded. Happy Coding!', ), );
 }
 
 async function run( ...args )
