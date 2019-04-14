@@ -11,6 +11,7 @@ import router from './app/router.js';
 	
 	const app= new App( {
 		router,
+		webRoot: import.meta.url.replace( /^file:\/\/|\/iGit\.js$/g, '', ),
 	}, );
 	
 	app.listenHTTP( host, );
