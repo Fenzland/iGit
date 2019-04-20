@@ -1,3 +1,4 @@
+import { Encoder, } from '../modules.deno.js';
 
 export default class Response
 {
@@ -15,7 +16,7 @@ export default class Response
 		
 		if( typeof body === 'string' )
 		{
-			this.body= new TextEncoder().encode( body, );
+			this.body= Encoder.encode( body, );
 			this.headers.set( 'Content-Length', this.body.length, )
 		}
 		else
