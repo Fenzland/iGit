@@ -2,6 +2,17 @@
 export default class GitCli
 {
 	/**
+	 * Construct a object to access git cli
+	 * 
+	 * @param gitDir    (string)
+	 * @param ?workTree (string)  optional for bare repository
+	 */
+	constructor( gitDir, workTree=undefined, )
+	{
+		this.gitDir= gitDir;
+		this.workTree= workTree;
+	}
+	/**
 	 * Run git command, and get the result
 	 * 
 	 * @param ...args (string)[]
