@@ -12,6 +12,37 @@ export default class GitCli
 		this.gitDir= gitDir;
 		this.workTree= workTree;
 	}
+	
+	/**
+	 * Run a git command in the git-dir and work-tree, and get the result
+	 * 
+	 * @param command (string)
+	 * @param ...args (string)[]
+	 * 
+	 * @return ~(string)
+	 */
+	async run( command, ...args )
+	{
+		const process= this.runProcess( command, ...args, )
+		
+		return this.constructor.handleProcess( process, );
+	}
+	
+	/**
+	 * Run a git command in the git-dir and work-tree, and get the deno process
+	 * 
+	 * @param command (string)
+	 * @param ...args (string)[]
+	 * 
+	 * @return {Process}
+	 */
+	runProcess( command, ...args )
+	{
+		return this.constructor.runProcess(
+			`--git-dir=${this.gitDir}`, `--work-tree=${this.workTree}`, command, ...args,
+		);
+	}
+	
 	/**
 	 * Run git command, and get the result
 	 * 
