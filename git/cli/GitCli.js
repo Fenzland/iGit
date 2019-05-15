@@ -87,12 +87,22 @@ export default class GitCli
 	 */
 	static async handleProcess( process, )
 	{
-		const status= process.status();
-		const output= process.output();
+		const $status= process.status();
+		const $output= process.output();
 		
-		if( !(await status).success )
-			throw new Error( Encoder.decode( await process.stderrOutput(), ), );
-		
-		return Encoder.decode( await output, );
+		try
+		{
+			if( !(await $status).success )
+				throw new Error( Encoder.decode( await process.stderrOutput(), ), );
+			
+			return Encoder.decode( await $output, );
+		}
+		finally
+		{
+			try{ process.stdin.close(); }catch( e ){}
+			try{ process.stdout.close(); }catch( e ){}
+			try{ process.stderr.close(); }catch( e ){}
+			process.close();
+		}
 	}
 }
