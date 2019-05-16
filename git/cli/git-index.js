@@ -36,3 +36,23 @@ export async function getIndex()
 		};
 	}, );
 }
+
+/**
+ * Let git detect untracked files.
+ * 
+ * @return ~
+ */
+export async function fixUntracked()
+{
+	const output= await this.run( 'status', '-s', '--no-renames', );
+	const lines= output.split( '\n', );
+	
+	const newAdded= lines.filter( line=> line.slice( 1, 2, ) === 'A', ).map( line=> line.slice( 3, ), );
+	const untracked= lines.filter( line=> line.slice( 1, 2, ) in { A: 1, '?': 1, }, ).map( line=> line.slice( 3, ), );
+	
+	if( newAdded.length )
+		await this.run( 'reset', '--', ...newAdded, );
+	
+	if( untracked.length )
+		await this.run( 'add', '--intent-to-add', '--', ...untracked, );
+}

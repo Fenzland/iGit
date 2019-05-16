@@ -1,4 +1,4 @@
-import { getIndex, } from './git-index.js';
+import { getIndex, fixUntracked, } from './git-index.js';
 import { Encoder, } from '../../app/modules.js';
 import CliError from './CliError.js';
 
@@ -138,4 +138,5 @@ function retryWhenLocked( callback, )
 
 Object.assign( GitCli.prototype, {
 	getIndex,
+	fixUntracked,
 }, );
