@@ -29,4 +29,14 @@ export default class CliError extends Error
 	{
 		return this.#code;
 	}
+	
+	/**
+	 * Get whether the command failed with index.lock
+	 * 
+	 * @return (boolean)
+	 */
+	get locked()
+	{
+		return this.#code === 0x80;
+	}
 }
