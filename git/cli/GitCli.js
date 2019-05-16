@@ -29,7 +29,9 @@ export default class GitCli
 	{
 		const process= await this.runProcess( command, ...args, )
 		
-		return this.constructor.handleProcess( process, );
+		return this.constructor.handleProcess( process, )
+			.catch( retryWhenLocked( ()=> this.run( command, ...args, ), ), )
+		;
 	}
 	
 	/**
@@ -58,7 +60,9 @@ export default class GitCli
 	{
 		const process= await this.runProcess( ...args, )
 		
-		return this.handleProcess( process, );
+		return this.handleProcess( process, )
+			.catch( retryWhenLocked( ()=> this.run( ...args, ), ), )
+		;
 	}
 	
 	/**
@@ -113,4 +117,20 @@ export default class GitCli
 			process.close();
 		}
 	}
+}
+
+function retryWhenLocked( callback, )
+{
+	return blocker= async e=> {
+		if( e.locked )
+		{
+			await timeout( 500, );
+			
+			await Deno.remove( e.message.find( /'([^']+\/index.lock)'/, 1, ), ).catch( ()=> {}, );
+			
+			return callback();
+		}
+		else
+			throw e;
+	};
 }
