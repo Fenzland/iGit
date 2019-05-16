@@ -1,3 +1,7 @@
+import { Encoder, } from '../../app/modules.js';
+import CliError from './CliError.js';
+
+let blocker= Promise.resolve();
 
 export default class GitCli
 {
@@ -23,7 +27,7 @@ export default class GitCli
 	 */
 	async run( command, ...args )
 	{
-		const process= this.runProcess( command, ...args, )
+		const process= await this.runProcess( command, ...args, )
 		
 		return this.constructor.handleProcess( process, );
 	}
@@ -34,11 +38,11 @@ export default class GitCli
 	 * @param command (string)
 	 * @param ...args (string)[]
 	 * 
-	 * @return {Process}
+	 * @return ~{Process}
 	 */
-	runProcess( command, ...args )
+	async runProcess( command, ...args )
 	{
-		return this.constructor.runProcess(
+		return await this.constructor.runProcess(
 			`--git-dir=${this.gitDir}`, `--work-tree=${this.workTree}`, command, ...args,
 		);
 	}
@@ -52,7 +56,7 @@ export default class GitCli
 	 */
 	static async run( ...args )
 	{
-		const process= this.runProcess( ...args, )
+		const process= await this.runProcess( ...args, )
 		
 		return this.handleProcess( process, );
 	}
@@ -62,10 +66,12 @@ export default class GitCli
 	 * 
 	 * @param ...args (string)[]
 	 * 
-	 * @return ~(string)
+	 * @return ~{Process}
 	 */
-	static runProcess( ...args )
+	static async runProcess( ...args )
 	{
+		await blocker;
+		
 		return Deno.run( {
 			args: [
 				'git',
@@ -92,8 +98,10 @@ export default class GitCli
 		
 		try
 		{
-			if( !(await $status).success )
-				throw new Error( Encoder.decode( await process.stderrOutput(), ), );
+			const status= await $status;
+			
+			if( !status.success )
+				throw new CliError( status.code, await process.stderrOutput(), );
 			
 			return Encoder.decode( await $output, );
 		}
