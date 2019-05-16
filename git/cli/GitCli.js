@@ -1,5 +1,5 @@
 import { getIndex, fixUntracked, } from './git-index.js';
-import { getHEAD, } from './refs.js';
+import { getHEAD, getAllRefs, } from './refs.js';
 import { Encoder, } from '../../app/modules.js';
 import CliError from './CliError.js';
 
@@ -141,4 +141,5 @@ Object.assign( GitCli.prototype, {
 	getIndex,
 	fixUntracked,
 	getHEAD,
+	getAllRefs,
 }, );
