@@ -27,13 +27,13 @@ const formatJson= JSON.stringify( {
  * 
  * @context {Git}
  * 
- * @return {Graph}
+ * @return ~[]{}
  */
-export async function graph()
+export async function graph( start, size, )
 {
 	const delimit= genDelimit();
 	
-	const output= await this.run( 'log', '--parents', '--all', '--date-order', `--pretty=tformat:${delimit}${formatJson}%n%s%n%b`, );
+	const output= await this.run( 'log', '--parents', `--skip=${start}`, `--max-count=${size}`, '--date-order', `--pretty=tformat:${delimit}${formatJson}%n%s%n%b`, );
 	
 	const data= output.split( `${delimit}`, ).slice( 1, ).map( text=> {
 		const [ json, title, ...bodyLines ]= text.split( '\n', );
@@ -47,7 +47,7 @@ export async function graph()
 		return data;
 	}, );
 	
-	return new Graph( data, );
+	return data;
 }
 
 /**
