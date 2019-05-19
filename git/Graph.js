@@ -5,7 +5,7 @@ export default class Graph
 	/**
 	 * @type []{Commit}
 	 */
-	#data;
+	#data= [];
 	
 	/**
 	 * @type { (string):Commit, }
@@ -23,11 +23,22 @@ export default class Graph
 	#graph= [];
 	
 	/**
+	 * 
+	 * @type []
+	 */
+	#threads= [];
+	
+	/**
 	 * Construct a git log graph
 	 * 
 	 * @param data []{Commit}
 	 */
 	constructor( data, )
+	{
+		this.append( data, );
+	}
+	
+	append( data, )
 	{
 		this.#data= data.map( ( line, index, )=> ({ index, ...line, }), );
 		
@@ -38,13 +49,11 @@ export default class Graph
 			this.#map[commit.hash]= commit;
 		}
 		
-		const threads= [];
-		
 		for( let [ row, commit, ] of this.#data.entries() )
 		{
 			const children= [];
 			
-			for( let [ x, thread, ] of threads.entries() )
+			for( let [ x, thread, ] of this.#threads.entries() )
 			{
 				if( thread.parent === commit.hash )
 					children.push( { dy: thread.row - row, dx: thread.column, x, commit: thread.commit, }, );
@@ -56,18 +65,18 @@ export default class Graph
 			{
 				column= children[0].x;
 				
-				threads.splice( column, 1, { commit, row, column, parent: commit.parents[0], }, );
+				this.#threads.splice( column, 1, { commit, row, column, parent: commit.parents[0], }, );
 				
-				children.slice( 1, ).forEach( ( child, x, )=> threads.splice( child.x - - x, 1, ), );
+				children.slice( 1, ).forEach( ( child, x, )=> this.#threads.splice( child.x - - x, 1, ), );
 			}
 			else
 			{
-				column= threads.length;
+				column= this.#threads.length;
 				
-				threads.push( { commit, row, column, parent: commit.parents[0], }, );
+				this.#threads.push( { commit, row, column, parent: commit.parents[0], }, );
 			}
 			
-			commit.parents.slice( 1, ).forEach( parent=> threads.push( { commit, row, column, parent, }, ), );
+			commit.parents.slice( 1, ).forEach( parent=> this.#threads.push( { commit, row, column, parent, }, ), );
 			
 			children.forEach( child=> {
 				child.x-= column;
@@ -77,7 +86,7 @@ export default class Graph
 				childLine.parents.find( parent=> parent.commit === commit, ).dy= -child.dy;
 			}, );
 			
-			this.#graph.push( { commit, row, column, width: threads.length, parents: commit.parents.map( hash=> ({ dy:0, commit:this.#map[hash], }), ), children, }, );
+			this.#graph.push( { commit, row, column, width: this.#threads.length, parents: commit.parents.map( hash=> ({ dy:0, commit:this.#map[hash], }), ), children, }, );
 		}
 	}
 	
@@ -99,6 +108,16 @@ export default class Graph
 	get graph()
 	{
 		return this.#graph;
+	}
+	
+	/**
+	 * Get threads object.
+	 * 
+	 * @return []{}
+	 */
+	get threads()
+	{
+		return this.#threads;
 	}
 	
 	/**
