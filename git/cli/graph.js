@@ -33,7 +33,14 @@ export async function graph( start, size, )
 {
 	const delimit= genDelimit();
 	
-	const output= await this.run( 'log', '--parents', `--skip=${start}`, `--max-count=${size}`, '--date-order', `--pretty=tformat:${delimit}${formatJson}%n%s%n%b`, );
+	const output= await this.run( 'log',
+		'--parents',
+		'--all',
+		`--skip=${start}`,
+		`--max-count=${size}`,
+		'--date-order',
+		`--pretty=tformat:${delimit}${formatJson}%n%s%n%b`,
+	);
 	
 	const data= output.split( `${delimit}`, ).slice( 1, ).map( text=> {
 		const [ json, title, ...bodyLines ]= text.split( '\n', );
@@ -42,7 +49,7 @@ export async function graph( start, size, )
 		
 		data.title= title;
 		data.body= bodyLines.join( '\n', ).trim();
-		data.parents= data.parents.split( ' ', );
+		data.parents= data.parents.split( ' ', ).filter( _=> _, );
 		
 		return data;
 	}, );
