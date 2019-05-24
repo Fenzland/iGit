@@ -62,6 +62,68 @@ export default class Git
 	}
 	
 	/**
+	 * Get the git refs
+	 * 
+	 * @param start (number)
+	 * @param size  (number)
+	 * 
+	 * @return ~[]{}
+	 */
+	async getRefs()
+	{
+		return this.cli.getAllRefs();
+	}
+	
+	/**
+	 * Get the log graph
+	 * 
+	 * @param start (number)
+	 * @param size  (number)
+	 * 
+	 * @return ~[]{}
+	 */
+	async getGraph( start, size, )
+	{
+		return this.cli.graph( start, size, );
+	}
+	
+	/**
+	 * Get the git index status
+	 * 
+	 * @return ~[]{ file:(string), toFile:?(string), staged:(string), unstaged:(string), }
+	 */
+	async getIndex()
+	{
+		if( this.#isBare && !this.#workTree )
+			return [];
+		
+		await this.cli.fixUntracked();
+		
+		return this.cli.getIndex();
+	}
+	
+	/**
+	 * Get details of index.
+	 * 
+	 * @return ~{ unstaged:{Diff}, staged:{Diff}, turnBack, }
+	 */
+	async diffIndex( ...files )
+	{
+		if( this.#isBare && !this.#workTree )
+			throw new Error( 'There is no index', );
+		
+		const $unstaged= this.cli.diff( 'INDEX', 'WORK_TREE', ...files, );
+		const $staged= this.cli.diff( 'HEAD', 'INDEX', ...files, );
+		const $turnBack= this.cli.diff( 'WORK_TREE', 'HEAD', ...files, );
+		
+		return {
+			unstaged: await $unstaged,
+			staged:   await $staged,
+			turnBack: await $turnBack,
+		};
+	}
+	
+	/**
 	 * Check git version.
 	 * 
 	 * @return ~
