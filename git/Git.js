@@ -60,5 +60,20 @@ export default class Git
 			throw new Error( 'iGit must run in a valid git repository.', );
 		}, );
 	}
+	
+	/**
+	 * Check git version.
+	 * 
+	 * @return ~
+	 * 
+	 * @throw {Error}
+	 */
+	static async checkVersion()
+	{
+		const v= (await GitCli.run( '--version', )).replace( 'git version ', '', ).split( '.', ).map( x=> +x, );
+		
+		if(!( v[0] >= 2 && v[1] >= 18 ))
+			throw new Error( 'iGit need git version >= 2.18', );
+	}
 }
 
