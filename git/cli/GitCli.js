@@ -10,22 +10,32 @@ let blocker= Promise.resolve();
 export default class GitCli
 {
 	/**
+	 * Args for git main command
+	 * 
+	 * @type [](string)
+	 */
+	#gitArgs= [];
+	
+	/**
 	 * Construct a object to access git cli
 	 * 
 	 * @param gitDir    (string)
-	 * @param ?workTree (string)  optional for bare repository
+	 * @param workTree  (string)  for non-bare repository
+	 *                  (null)    for bare repository
 	 */
-	constructor( gitDir, workTree=undefined, )
+	constructor( gitDir, workTree, )
 	{
-		this.gitDir= gitDir;
-		this.workTree= workTree;
+		this.#gitArgs.push( `--git-dir=${gitDir}`, );
+		
+		if( workTree )
+			this.#gitArgs.push( `--work-tree=${workTree}`, );
 	}
 	
 	/**
 	 * Run a git command in the git-dir and work-tree, and get the result
 	 * 
 	 * @param command (string)
-	 * @param ...args (string)[]
+	 * @param ...args [](string)
 	 * 
 	 * @return ~(string)
 	 */
@@ -42,21 +52,21 @@ export default class GitCli
 	 * Run a git command in the git-dir and work-tree, and get the deno process
 	 * 
 	 * @param command (string)
-	 * @param ...args (string)[]
+	 * @param ...args [](string)
 	 * 
 	 * @return ~{Process}
 	 */
 	async runProcess( command, ...args )
 	{
 		return await this.constructor.runProcess(
-			`--git-dir=${this.gitDir}`, `--work-tree=${this.workTree}`, command, ...args,
+			this.#gitArgs, command, ...args,
 		);
 	}
 	
 	/**
 	 * Run git command, and get the result
 	 * 
-	 * @param ...args (string)[]
+	 * @param ...args [](string)
 	 * 
 	 * @return ~(string)
 	 */
@@ -72,7 +82,7 @@ export default class GitCli
 	/**
 	 * Run git command, and get the deno process
 	 * 
-	 * @param ...args (string)[]
+	 * @param ...args [](string)
 	 * 
 	 * @return ~{Process}
 	 */
