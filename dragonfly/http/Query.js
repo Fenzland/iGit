@@ -2,14 +2,24 @@
 export default class Query
 {
 	/**
+	 * @type {}
+	 */
+	#data;
+	
+	/**
+	 * @type {URLSearchParams}
+	 */
+	#searchParams;
+	
+	/**
 	 * Construct a HTTP query
 	 * 
 	 * @param ...params <mixed>
 	 */
 	constructor( ...params )
 	{
-		this.data= {};
-		this.searchParams= new URLSearchParams();
+		this.#data= {};
+		this.#searchParams= new URLSearchParams();
 		
 		new URLSearchParams( ...params, ).forEach( ( value, name, )=> this.set( name, value, ), );
 	}
@@ -26,14 +36,14 @@ export default class Query
 	{
 		const keys= name.split( '[' ).map( key=> key.replace( ']', '', ), );
 		
-		deeplySet( this, 'data', keys, value, );
+		deeplySet( { data:this.#data, }, 'data', keys, value, );
 		
-		if( keys.pop() === '' && Array.isArray( deeplyGet( this.data, keys, ), ) )
-			this.searchParams.append( name, value, );
+		if( keys.pop() === '' && Array.isArray( deeplyGet( this.#data, keys, ), ) )
+			this.#searchParams.append( name, value, );
 		else
 		{
-			this.searchParams.delete( name.replace( /\[\]$/, '', ), );
-			this.searchParams.set( name, value, );
+			this.#searchParams.delete( name.replace( /\[\]$/, '', ), );
+			this.#searchParams.set( name, value, );
 		}
 	}
 	
@@ -48,9 +58,9 @@ export default class Query
 	{
 		const keys= name.split( '[' ).map( key=> key.replace( ']', '', ), );
 		
-		deeplyDelete( this, 'data', keys, );
+		deeplyDelete( { data:this.#data, }, 'data', keys, );
 		
-		this.searchParams.delete( name, );
+		this.#searchParams.delete( name, );
 	}
 	
 	/**
@@ -65,12 +75,12 @@ export default class Query
 	{
 		const keys= name.split( '[' ).map( key=> key.replace( ']', '', ), );
 		
-		return deeplyGet( this.data, keys, ) || deflt;
+		return deeplyGet( this.#data, keys, ) || deflt;
 		
 		if( name.endsWith( '[]', ) )
-			return this.searchParams.getAll( name, );
+			return this.#searchParams.getAll( name, );
 		else
-			return this.searchParams.get( name, ) || deflt;
+			return this.#searchParams.get( name, ) || deflt;
 	}
 	
 	/**
@@ -80,7 +90,7 @@ export default class Query
 	 */
 	entries()
 	{
-		return this.searchParams.entries();
+		return this.#searchParams.entries();
 	}
 	
 	/**
@@ -90,7 +100,7 @@ export default class Query
 	 */
 	keys()
 	{
-		return this.searchParams.keys();
+		return this.#searchParams.keys();
 	}
 	
 	/**
@@ -100,7 +110,7 @@ export default class Query
 	 */
 	values()
 	{
-		return this.searchParams.values();
+		return this.#searchParams.values();
 	}
 	
 	/**
@@ -113,7 +123,7 @@ export default class Query
 	 */
 	forEach( callback, context, )
 	{
-		return this.searchParams.forEach(
+		return this.#searchParams.forEach(
 			( value, key, )=> callback( value, key, this, ),
 			context,
 		);
@@ -126,7 +136,7 @@ export default class Query
 	 */
 	toString()
 	{
-		return this.searchParams.toString();
+		return this.#searchParams.toString();
 	}
 }
 
