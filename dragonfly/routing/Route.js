@@ -101,19 +101,21 @@ export default class Route
 	 * 
 	 * @return {Response}
 	 */
-	makeResponse( responded, )
+	makeResponse( responded, status=200, headers={}, )
 	{
 		switch( this.accept )
 		{
 			default:
 			case 'text/html':
-				return Response.newHTML( `${responded}`, );
+				return Response.newHTML( `${responded}`, { status, headers, }, );
 			break;
 			
 			case 'application/json':
 				return new Response( {
 					body: JSON.stringify( responded, ),
+					status,
 					headers: {
+						...headers,
 						'Content-Type': 'application/json',
 					},
 				}, );
@@ -123,7 +125,9 @@ export default class Route
 			case 'application/javascript':
 				return new Response( {
 					body: `${responded}`,
+					status,
 					headers: {
+						...headers,
 						'Content-Type': 'application/javascript',
 					},
 				}, );
