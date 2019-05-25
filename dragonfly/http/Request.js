@@ -14,11 +14,11 @@ export default class Request
 		this.method= denoRequest.method;
 		this.headers= denoRequest.headers;
 		
-		const [ path, ...query ]= this.url.split( /\?|&/, );
+		const [ path, query='', ]= this.url.split( '?', );
 		
 		this.path= path;
-		this.query= new Query( query.length? query[0]: '', );
+		this.query= new Query( query, );
 		
-		this.accept= new AcceptArray( this.headers.get( 'Accept', ), path, );
+		this.accept= new AcceptArray( this.headers.get( 'Accept', ) || '*/*', path, );
 	}
 }
