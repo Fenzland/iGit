@@ -74,7 +74,7 @@ function defaultWebRoot()
 {
 	const file= path.traceBack( 2, );
 	
-	return path.dirname( file, ).replace( /^file:\/\//, '', );
+	return path.dirname( file, ).replace( /^file:\/\//, '', ).replace( /\/([A-Z]:\/)/, '$1', );
 }
 
 /**
