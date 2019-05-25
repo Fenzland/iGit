@@ -1,6 +1,7 @@
 import { path, } from '../modules.deno.js';
 import Route from './Route.js';
 import Response from '../http/Response.js';
+import notFoundRoute from './not-found.js';
 
 export default class Router
 {
@@ -21,9 +22,7 @@ export default class Router
 			return new Route( route, );
 		}, );
 		
-		this.failback= new Route( {
-			controller: ()=> Response.newHTML( 'Not Found', { status: 404, }, ),
-		}, );
+		this.failback= notFoundRoute;
 	}
 	
 	/**
