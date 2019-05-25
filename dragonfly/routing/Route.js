@@ -59,11 +59,12 @@ export default class Route
 	/**
 	 * Run the route.
 	 * 
-	 * @param request {Request}
+	 * @param 0.request {Request}
+	 * @param 0.app     {App}
 	 * 
 	 * @return {Response}
 	 */
-	async run( request, )
+	async run( { request, app, }, )
 	{
 		let controller, responded;
 		
@@ -80,7 +81,7 @@ export default class Route
 		
 		try
 		{
-			responded= await controller( { request, Response, }, );
+			responded= await controller( { app, request, Response, }, );
 		}
 		catch( e )
 		{

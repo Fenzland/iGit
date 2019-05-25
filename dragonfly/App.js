@@ -45,7 +45,7 @@ export default class App
 			
 			const route= this.router.dispatch( request, );
 			
-			const response= await route.run( request, );
+			const response= await route.run( { request, app: this, }, );
 			
 			denoRequest.respond( response, );
 		}
