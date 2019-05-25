@@ -66,7 +66,7 @@ export default class Route
 	 */
 	async run( { request, app, }, )
 	{
-		let controller, responded;
+		let controller, responded, status;
 		
 		if( this.controller instanceof Function )
 			controller= this.controller;
@@ -82,16 +82,20 @@ export default class Route
 		try
 		{
 			responded= await controller( { app, request, Response, }, );
+			status= 200;
 		}
 		catch( e )
 		{
+			console.error( e, );
+			
 			responded= e;
+			status= 500;
 		}
 		
 		if( responded instanceof Response )
 			return responded;
 		
-		return this.makeResponse( responded, );
+		return this.makeResponse( responded, status, );
 	}
 	
 	/**
