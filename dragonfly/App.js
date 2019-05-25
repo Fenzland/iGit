@@ -1,4 +1,5 @@
 import { httpServer, path, file_exists, } from './modules.deno.js';
+import { file_length, read_file, is_file, } from './utils/fs.js';
 import Request from './http/Request.js';
 import Response from './http/Response.js';
 import { ext2mime, } from './http/mime.js';
@@ -78,18 +79,6 @@ function defaultWebRoot()
 }
 
 /**
- * Check whether a file is a file (not directory or symbol link).
- * 
- * @param path (string)
- * 
- * @return ~(boolean)
- */
-async function is_file( path, )
-{
-	return (await Deno.stat( path, )).isFile();
-}
-
-/**
  * Make file response
  * 
  * @access private
@@ -103,15 +92,15 @@ async function makeFileResponse( path, )
 	const ext= (x=> x? x[0]: '')( path.match( /\.\w+$/, ), );
 	const mime= ext2mime( ext, ) || 'text/plain';
 	
-	const file= Deno.open( path, );
-	const stat= Deno.stat( path, );
+	const $content= read_file( path, );
+	const $length= file_length( path, );
 	
 	return new Response( {
-		body: await file,
+		body: await $content,
 		status: 200,
 		headers: {
 			'Content-Type': mime,
-			'Content-Length': (await stat).len,
+			'Content-Length': await $length,
 		},
 	}, );
 }
