@@ -57,15 +57,20 @@ export default class Query
 	 * Get value.
 	 * 
 	 * @param name  (string)
+	 * @param deflt <any>
 	 * 
 	 * @return (string)
 	 */
-	get( name, )
+	get( name, deflt=undefined, )
 	{
+		const keys= name.split( '[' ).map( key=> key.replace( ']', '', ), );
+		
+		return deeplyGet( this.data, keys, ) || deflt;
+		
 		if( name.endsWith( '[]', ) )
 			return this.searchParams.getAll( name, );
 		else
-			return this.searchParams.get( name, );
+			return this.searchParams.get( name, ) || deflt;
 	}
 	
 	/**
@@ -139,13 +144,12 @@ function deeplyGet( object, keys, )
 	
 	const currentKey= keys.shift();
 	
-	if( !keys.length )
-		return object;
+	const currentValue= currentKey? object[currentKey]: object;
 	
-	if( object[currentKey] )
-		return deeplyGet( object[currentKey], keys, );
+	if( keys.length )
+		return deeplyGet( currentValue, keys, );
 	else
-		return undefined;
+		return currentValue;
 }
 
 /**
