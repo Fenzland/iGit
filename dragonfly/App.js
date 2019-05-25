@@ -102,7 +102,7 @@ async function makeFileResponse( path, )
 	const ext= (x=> x? x[0]: '')( path.match( /\.\w+$/, ), );
 	const mime= ext2mime( ext, ) || 'text/plain';
 	
-	const $content= read_file( path, );
+	const $content= read_file( path, { asText:false, }, );
 	const $length= file_length( path, );
 	
 	return new Response( {
