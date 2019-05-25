@@ -10,6 +10,16 @@ import { ext2mime, } from './http/mime.js';
 export default class App
 {
 	/**
+	 * @type {Router}
+	 */
+	#router;
+	
+	/**
+	 * @type (string)
+	 */
+	#webRoot;
+	
+	/**
 	 * Construct app
 	 * 
 	 * @param 0.router  {Router}
@@ -17,8 +27,8 @@ export default class App
 	 */
 	constructor( { router, webRoot=defaultWebRoot(), }, )
 	{
-		this.router= router;
-		this.webRoot= webRoot;
+		this.#router= router;
+		this.#webRoot= webRoot;
 	}
 	
 	/**
@@ -36,14 +46,14 @@ export default class App
 			
 			if( await this.hasFile( request.path, ) )
 			{
-				const path= `${this.webRoot}${request.path}`;
+				const path= `${this.#webRoot}${request.path}`;
 				
 				denoRequest.respond( await makeFileResponse( path, ), );
 				
 				continue;
 			}
 			
-			const route= this.router.dispatch( request, );
+			const route= this.#router.dispatch( request, );
 			
 			const response= await route.run( { request, app: this, }, );
 			
@@ -60,7 +70,7 @@ export default class App
 	 */
 	async hasFile( path, )
 	{
-		path= `${this.webRoot}${path}`;
+		path= `${this.#webRoot}${path}`;
 		
 		return (await file_exists( path, )) && (await is_file( path, ));
 	}
