@@ -6,7 +6,7 @@ export default class Response
 	 * Construct a response (server-side)
 	 * 
 	 * @param 0.body     <mixed>
-	 * @param 0.?status  <number>
+	 * @param 0.?status  (number)
 	 * @param 0.?headers {}
 	 */
 	constructor( { body, status=200, headers={}, }, )
@@ -27,14 +27,16 @@ export default class Response
 	 * Construct a HTML response
 	 * 
 	 * @param body       (string)
-	 * @param 1.?status  <number>
+	 * @param 1.?status  (number)
 	 * @param 1.?headers {}
+	 * 
+	 * @return {Response}
 	 */
-	static newHTML( body, { status=200, }={}, )
+	static newHTML( body, { status=200, headers={}, }={}, )
 	{
-		const headers= {
+		headers= Object.assign( {
 			'Content-Type': 'text/html;charset=utf-8',
-		};
+		}, headers, );
 		
 		return new this( { status, body, headers, }, );
 	}
