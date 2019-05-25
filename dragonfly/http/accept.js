@@ -68,6 +68,26 @@ export class AcceptArray extends Array
 export class AcceptItem
 {
 	/**
+	 * @type (string)
+	 */
+	#mime;
+	
+	/**
+	 * @type (string)
+	 */
+	#type;
+	
+	/**
+	 * @type (string)
+	 */
+	#subtype;
+	
+	/**
+	 * @type (number)
+	 */
+	#quality;
+	
+	/**
 	 * Construct a accept item
 	 * 
 	 * @param ?mime    (string)
@@ -75,11 +95,13 @@ export class AcceptItem
 	 */
 	constructor( mime='*/*', quality=1, )
 	{
-		this.mime= mime;
-		[ this.type, this.subtype=null, ]= mime.split( '/', );
+		this.#mime= mime;
+		[ this.#type, this.#subtype=null, ]= mime.split( '/', );
 		
-		if( !this.subtype )
+		if( !this.#subtype )
 			throw new Error( `MIME type ${mime} is invalid`, );
+		
+		this.#quality= quality;
 	}
 	
 	/**
@@ -109,16 +131,16 @@ export class AcceptItem
 	 */
 	matchSplited( type, subtype, )
 	{
-		if( this.mime === '*/*' )
+		if( this.#mime === '*/*' )
 			return 1;
 		else
-		if( type !== this.type )
+		if( type !== this.#type )
 			return 0;
 		else
-		if( this.subtype === '*' )
+		if( this.#subtype === '*' )
 			return 2
 		else
-		if( subtype !== this.subtype )
+		if( subtype !== this.#subtype )
 			return 0;
 		else
 			return 4;
@@ -131,9 +153,9 @@ export class AcceptItem
 	 */
 	toString()
 	{
-		if( this.quality===1 )
-			return this.mime;
+		if( this.#quality===1 )
+			return this.#mime;
 		else
-			return `${this.mime};q=${this.quality}`;
+			return `${this.#mime};q=${this.#quality}`;
 	}
 }
