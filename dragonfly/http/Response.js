@@ -3,6 +3,21 @@ import { Encoder, } from '../modules.deno.js';
 export default class Response
 {
 	/**
+	 * @type (number)
+	 */
+	#status;
+	
+	/**
+	 * @type {Headers}
+	 */
+	#headers;
+	
+	/**
+	 * @type (string)
+	 */
+	#body;
+	
+	/**
 	 * Construct a response (server-side)
 	 * 
 	 * @param 0.body     <mixed>
@@ -11,16 +26,40 @@ export default class Response
 	 */
 	constructor( { body, status=200, headers={}, }, )
 	{
-		this.status= status;
-		this.headers= new Headers( headers, );
+		this.#status= status;
+		this.#headers= new Headers( headers, );
 		
 		if( typeof body === 'string' )
 		{
-			this.body= Encoder.encode( body, );
-			this.headers.set( 'Content-Length', this.body.length, )
+			this.#body= Encoder.encode( body, );
+			this.#headers.set( 'Content-Length', this.#body.length, )
 		}
 		else
-			this.body= body;
+			this.#body= body;
+	}
+	
+	/**
+	 * @return (number)
+	 */
+	get stotus()
+	{
+		return this.#status;
+	}
+	
+	/**
+	 * @return {Headers}
+	 */
+	get headers()
+	{
+		return this.#headers;
+	}
+	
+	/**
+	 * @return (string)
+	 */
+	get body()
+	{
+		return this.#body;
 	}
 	
 	/**
