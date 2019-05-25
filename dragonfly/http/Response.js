@@ -40,4 +40,48 @@ export default class Response
 		
 		return new this( { status, body, headers, }, );
 	}
+	
+	/**
+	 * Construct a JSON response
+	 * 
+	 * @param body       (string)  JSON string
+	 *                   <mixed>   something will be JSON.stringified
+	 * @param 1.?status  (number)
+	 * @param 1.?headers {}
+	 * 
+	 * @return {Response}
+	 */
+	static newJSON( body, { status=200, headers={}, }={}, )
+	{
+		if( body === undefined )
+			body= null;
+		
+		if(!( typeof body === 'string' && isJson( body, ) ))
+			body= JSON.stringify( body, );
+		
+		headers= Object.assign( {
+			'Content-Type': 'application/json',
+		}, headers, );
+		
+		return new this( { status, body, headers, }, );
+	}
+}
+
+/**
+ * Check whether a string is a JSON string
+ * 
+ * @param string (string)
+ * 
+ * @return (boolean)
+ */
+function isJson( string, )
+{
+	try
+	{
+		return JSON.parse( string, ()=> true, );
+	}
+	catch( e )
+	{
+		return false;
+	}
 }
