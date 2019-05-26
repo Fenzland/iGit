@@ -47,8 +47,8 @@ export async function fixUntracked()
 	const output= await this.run( 'status', '-s', '--no-renames', );
 	const lines= output.split( '\n', );
 	
-	const newAdded= lines.filter( line=> line.slice( 1, 2, ) === 'A', ).map( line=> line.slice( 3, ), );
-	const untracked= lines.filter( line=> line.slice( 1, 2, ) in { A:1, D:1, '?':1, }, ).map( line=> line.slice( 3, ), );
+	const newAdded=  lines.filter( line=> line[1] === 'A', ).map( line=> line.slice( 3, ), );
+	const untracked= lines.filter( line=> line[1] === 'A' || line[0] === 'D' || line[1] === '?', ).map( line=> line.slice( 3, ), );
 	
 	if( newAdded.length )
 		await this.run( 'reset', '--', ...newAdded, );
