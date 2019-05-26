@@ -34,11 +34,11 @@ export default class Args
 	/**
 	 * check whether the argument bag has the given option.
 	 * 
-	 * @param option (string)  option name, must without '-' or '--'
+	 * @param ...options [](string)  option name, must without '-' or '--'
 	 */
-	hasOption( option, )
+	hasOption( ...options )
 	{
-		return this.options.hasOwnProperty( option, );
+		return options.some( option=> this.options.hasOwnProperty( option, ), );
 	}
 	
 	/**
