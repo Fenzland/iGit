@@ -142,7 +142,7 @@ export default class Graph
 	 */
 	#storeCommitAndGetRowIndex= ( commit, )=> {
 		const row= this.#data.length;
-		const stored= { row, ...commit, };
+		const stored= { row, commit, };
 		
 		this.#data.push( stored, );
 		this.#map[commit.hash]= stored;
@@ -199,7 +199,7 @@ export default class Graph
 	 */
 	getCommit( hash, )
 	{
-		return this.#map[hash];
+		return (this.#map[hash]||{}).commit;
 	}
 	
 	/**

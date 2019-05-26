@@ -35,7 +35,7 @@ export default class GitCli
 	 * Run a git command in the git-dir and work-tree, and get the result
 	 * 
 	 * @param command (string)
-	 * @param ...args [](string)
+	 * @param ...args []<(string)|{:}>
 	 * 
 	 * @return ~(string)
 	 */
@@ -52,7 +52,7 @@ export default class GitCli
 	 * Run a git command in the git-dir and work-tree, and get the deno process
 	 * 
 	 * @param command (string)
-	 * @param ...args [](string)
+	 * @param ...args []<(string)|{:}>
 	 * 
 	 * @return ~{Process}
 	 */
@@ -66,7 +66,7 @@ export default class GitCli
 	/**
 	 * Run git command, and get the result
 	 * 
-	 * @param ...args [](string)
+	 * @param ...args []<(string)|{:}>
 	 * 
 	 * @return ~(string)
 	 */
@@ -82,13 +82,15 @@ export default class GitCli
 	/**
 	 * Run git command, and get the deno process
 	 * 
-	 * @param ...args [](string)
+	 * @param ...args []<(string)|{:}>
 	 * 
 	 * @return ~{Process}
 	 */
 	static async runProcess( ...args )
 	{
 		await blocker;
+		
+		const options= extractOptions( args, );
 		
 		return Deno.run( {
 			args: [
@@ -131,6 +133,27 @@ export default class GitCli
 			process.close();
 		}
 	}
+}
+
+/**
+ * Extract the options out from arguments
+ * @param  args []<(string)|{:}>
+ * 
+ * @return {:}
+ */
+function extractOptions( args )
+{
+	const options= {};
+	
+	for( let i= 0; i <= args.length; )
+	{
+		if( typeof args[i] === 'object' && args[i] )
+			Object.assign( options, ...args.splice( i, 1, ), );
+		else
+			++i;
+	}
+	
+	return options;
 }
 
 function retryWhenLocked( callback, )

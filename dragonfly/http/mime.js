@@ -202,8 +202,7 @@ const MIME2EXT= {
  */
 export function ext2mime( ext, )
 {
-	if( ext.startsWith( '.', ) )
-		ext= ext.slice( 1, );
+	ext= ext.replace( /[^.]*\./g, '', );
 	
 	return EXT2MIME[ext] || 'application/octet-stream';
 }

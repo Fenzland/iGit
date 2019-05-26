@@ -1,4 +1,5 @@
 import { httpServer, path, file_exists, } from './modules.deno.js';
+import { file_length, read_file, is_file, } from './utils/fs.js';
 import Request from './http/Request.js';
 import Response from './http/Response.js';
 import { ext2mime, } from './http/mime.js';
@@ -9,6 +10,16 @@ import { ext2mime, } from './http/mime.js';
 export default class App
 {
 	/**
+	 * @type {Router}
+	 */
+	#router;
+	
+	/**
+	 * @type (string)
+	 */
+	#webRoot;
+	
+	/**
 	 * Construct app
 	 * 
 	 * @param 0.router  {Router}
@@ -16,8 +27,8 @@ export default class App
 	 */
 	constructor( { router, webRoot=defaultWebRoot(), }, )
 	{
-		this.router= router;
-		this.webRoot= webRoot;
+		this.#router= router;
+		this.#webRoot= webRoot;
 	}
 	
 	/**
@@ -35,16 +46,16 @@ export default class App
 			
 			if( await this.hasFile( request.path, ) )
 			{
-				const path= `${this.webRoot}${request.path}`;
+				const path= `${this.#webRoot}${request.path}`;
 				
 				denoRequest.respond( await makeFileResponse( path, ), );
 				
 				continue;
 			}
 			
-			const route= this.router.dispatch( request, );
+			const route= this.#router.dispatch( request, );
 			
-			const response= await route.run( request, );
+			const response= await route.run( { request, app: this, }, );
 			
 			denoRequest.respond( response, );
 		}
@@ -59,7 +70,7 @@ export default class App
 	 */
 	async hasFile( path, )
 	{
-		path= `${this.webRoot}${path}`;
+		path= `${this.#webRoot}${path}`;
 		
 		return (await file_exists( path, )) && (await is_file( path, ));
 	}
@@ -74,19 +85,7 @@ function defaultWebRoot()
 {
 	const file= path.traceBack( 2, );
 	
-	return path.dirname( file, ).replace( /^file:\/\//, '', );
-}
-
-/**
- * Check whether a file is a file (not directory or symbol link).
- * 
- * @param path (string)
- * 
- * @return ~(boolean)
- */
-async function is_file( path, )
-{
-	return (await Deno.stat( path, )).isFile();
+	return path.dirname( file, ).replace( /^file:\/\//, '', ).replace( /\/([A-Z]:\/)/, '$1', );
 }
 
 /**
@@ -103,15 +102,15 @@ async function makeFileResponse( path, )
 	const ext= (x=> x? x[0]: '')( path.match( /\.\w+$/, ), );
 	const mime= ext2mime( ext, ) || 'text/plain';
 	
-	const file= Deno.open( path, );
-	const stat= Deno.stat( path, );
+	const $content= read_file( path, { asText:false, }, );
+	const $length= file_length( path, );
 	
 	return new Response( {
-		body: await file,
+		body: await $content,
 		status: 200,
 		headers: {
 			'Content-Type': mime,
-			'Content-Length': (await stat).len,
+			'Content-Length': await $length,
 		},
 	}, );
 }

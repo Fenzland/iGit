@@ -3,6 +3,26 @@ import Response from '../http/Response.js';
 export default class Route
 {
 	/**
+	 * @type (string)
+	 */
+	#path;
+	
+	/**
+	 * @type (string)
+	 */
+	#method;
+	
+	/**
+	 * @type (string)
+	 */
+	#accept;
+	
+	/**
+	 * @type < (string) | ()=><{Response}|(string)> >
+	 */
+	#controller;
+	
+	/**
 	 * Construct a route
 	 * 
 	 * @param 0.path       (string)       exact path pattern
@@ -14,10 +34,10 @@ export default class Route
 	 */
 	constructor( { path, method='*', accept='*/*', controller, }, )
 	{
-		this.path= path;
-		this.method= method;
-		this.accept= accept;
-		this.controller= controller;
+		this.#path= path;
+		this.#method= method;
+		this.#accept= accept;
+		this.#controller= controller;
 	}
 	
 	/**
@@ -33,22 +53,22 @@ export default class Route
 		
 		// Path: strict string match is prior to regexp match.
 		level*= (
-			this.path instanceof RegExp? 
-			(this.path.test( request.path, )? 1: 0): 
-			(this.path === request.path? 2: 0)
+			this.#path instanceof RegExp? 
+			(this.#path.test( request.path, )? 1: 0): 
+			(this.#path === request.path? 2: 0)
 		);
 		
 		if( !level )
 			return 0;
 		
 		// Method: strict match is prior to *.
-		level*= this.method === '*'? 1: request.method === this.method? 2: 0;
+		level*= this.#method === '*'? 1: request.method === this.#method? 2: 0;
 		
 		if( !level )
 			return 0;
 		
 		// Accept: strict match is prior to *.
-		level*= request.accept.match( this.accept, );
+		level*= request.accept.match( this.#accept, );
 		
 		if( !level )
 			return 0;
@@ -59,20 +79,21 @@ export default class Route
 	/**
 	 * Run the route.
 	 * 
-	 * @param request {Request}
+	 * @param 0.request {Request}
+	 * @param 0.app     {App}
 	 * 
 	 * @return {Response}
 	 */
-	async run( request, )
+	async run( { request, app, }, )
 	{
-		let controller, responded;
+		let controller, responded, status;
 		
-		if( this.controller instanceof Function )
-			controller= this.controller;
+		if( this.#controller instanceof Function )
+			controller= this.#controller;
 		else
 		{
-			const importing= import(this.controller).catch( e=> {
-				throw new Error( `There is something wrong with controller [${this.controller}]:\n\n${e}`, );
+			const importing= import(this.#controller).catch( e=> {
+				throw new Error( `There is something wrong with controller [${this.#controller}]:\n\n${e}`, );
 			}, );
 			
 			controller= (await importing).default;
@@ -80,17 +101,21 @@ export default class Route
 		
 		try
 		{
-			responded= await controller( { request, Response, }, );
+			responded= await controller( { app, request, Response, }, );
+			status= 200;
 		}
 		catch( e )
 		{
+			console.error( e, );
+			
 			responded= e;
+			status= 500;
 		}
 		
 		if( responded instanceof Response )
 			return responded;
 		
-		return this.makeResponse( responded, );
+		return this.#makeResponse( responded, status, );
 	}
 	
 	/**
@@ -100,19 +125,20 @@ export default class Route
 	 * 
 	 * @return {Response}
 	 */
-	makeResponse( responded, )
-	{
-		switch( this.accept )
+	#makeResponse= ( responded, status=200, headers={}, )=> {
+		switch( this.#accept )
 		{
 			default:
 			case 'text/html':
-				return Response.newHTML( `${responded}`, );
+				return Response.newHTML( `${responded}`, { status, headers, }, );
 			break;
 			
 			case 'application/json':
 				return new Response( {
 					body: JSON.stringify( responded, ),
+					status,
 					headers: {
+						...headers,
 						'Content-Type': 'application/json',
 					},
 				}, );
@@ -122,11 +148,13 @@ export default class Route
 			case 'application/javascript':
 				return new Response( {
 					body: `${responded}`,
+					status,
 					headers: {
+						...headers,
 						'Content-Type': 'application/javascript',
 					},
 				}, );
 			break;
 		}
-	}
+	};
 }

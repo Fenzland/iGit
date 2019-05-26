@@ -1,9 +1,25 @@
 import { path, } from '../modules.deno.js';
 import Route from './Route.js';
 import Response from '../http/Response.js';
+import notFoundRoute from './not-found.js';
 
 export default class Router
 {
+	/**
+	 * @type (string)
+	 */
+	#controllerPath;
+	
+	/**
+	 * @type []{Route}
+	 */
+	#routes;
+	
+	/**
+	 * @type {Route}
+	 */
+	#failback= notFoundRoute;
+	
 	/**
 	 * Consturct a router
 	 * 
@@ -12,18 +28,16 @@ export default class Router
 	 */
 	constructor( { routes, controllerPath=defaultWebRoot(), }, )
 	{
-		this.controllerPath=controllerPath;
+		this.#controllerPath=controllerPath;
 		
-		this.routes= routes.map( route=> {
+		this.#routes= routes.map( route=> {
 			if( typeof route.controller === 'string' )
 				route.controller= controllerPath + route.controller;
 			
 			return new Route( route, );
 		}, );
 		
-		this.failback= new Route( {
-			controller: ()=> Response.newHTML( 'Not Found', { status: 404, }, ),
-		}, );
+		this.#failback= notFoundRoute;
 	}
 	
 	/**
@@ -35,7 +49,7 @@ export default class Router
 	 */
 	dispatch( request, )
 	{
-		return this.routes.reduce( ( result, route, )=> {
+		return this.#routes.reduce( ( result, route, )=> {
 			const level= route.match( request, );
 			
 			if( level > result.level )
@@ -45,7 +59,7 @@ export default class Router
 			}
 			
 			return result;
-		}, { level: 0, route: this.failback, }, ).route;
+		}, { level: 0, route: this.#failback, }, ).route;
 	}
 }
 
