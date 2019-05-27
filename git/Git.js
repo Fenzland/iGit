@@ -1,4 +1,5 @@
 import GitCli from './cli/GitCli.js';
+import CliError from './cli/CliError.js';
 
 export default class Git
 {
@@ -56,8 +57,11 @@ export default class Git
 			await this.cli.getHEAD();
 			
 			return this;
-		})().catch( ()=> {
-			throw new Error( 'iGit must run in a valid git repository.', );
+		})().catch( err=> {
+			if( err instanceof CliError )
+				throw new Error( 'iGit must run in a valid git repository.', );
+			else
+				throw err;
 		}, );
 	}
 	
