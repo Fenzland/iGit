@@ -6,9 +6,14 @@ import { color, } from './app/modules.deno.js';
 const env= Deno.env();
 const args= new Args( ...Deno.args, );
 
-const denoDir= env.DENO_DIR || `${env.HOME}/.deno`;
+if(!( args.hasOption( 'dev', ) ))
+	throw new Error( 'install without --dev is currently not support', );
+
+const homeDir= env.HOME || env.HOMEPATH;
+const denoDir= env.DENO_DIR || `${homeDir}/.deno`;
 const gitDir= `${denoDir}/iGit`;
 const version= args.getOption( 'version', 'origin/release', );
+
 const repository= (()=> {
 	if( args.hasOption( 'repository', ) )
 		return args.getOption( 'repository', );
@@ -48,7 +53,7 @@ async function update()
 	console.log( 'Updating...', );
 	await runGit( 'checkout', '-B', 'release', 'origin/release', );
 	
-	Deno.copyFile( `${denoDir}/iGit/bin/iGit`, `${denoDir}/bin/iGit`, );
+	await copyExecutable();
 	
 	console.log( color.green( 'Update successful. Happy Coding!', ), );
 }
@@ -64,9 +69,17 @@ async function install()
 	console.log( 'Installing...', );
 	await runGit( 'checkout', '-B', 'release', 'origin/release', );
 	
-	Deno.copyFile( `${denoDir}/iGit/bin/iGit`, `${denoDir}/bin/iGit`, );
+	await copyExecutable();
 	
 	console.log( color.green( 'Installation is succeeded. Happy Coding!', ), );
+}
+
+async function copyExecutable()
+{
+	if( Deno.platform.os === 'win' || Deno.platform.os === 'windows' )
+		await Deno.copyFile( `${denoDir}/iGit/bin/iGit-dev.bat`, `${denoDir}/bin/iGit.bat`, );
+	else
+		await Deno.copyFile( `${denoDir}/iGit/bin/iGit-dev`, `${denoDir}/bin/iGit`, );
 }
 
 async function run( ...args )
