@@ -185,9 +185,9 @@ export default class TripleDiff
 			
 			multipleReduce(
 				{
-					compare: ( x, y, )=> x.start < y.start,
+					compare: ( x, y, )=> x.start - - x.end < y.start - - y.end,
 					proceed: ( courier, item, n, i, )=> {
-						if( courier.num <= item.start )
+						if( !courier.piece || (courier.piece.end <= item.start && courier.piece.start < item.end) )
 						{
 							courier.piece= deepAssign( {}, item, );
 							pieces.push( courier.piece, );
@@ -246,17 +246,15 @@ export default class TripleDiff
 							}
 						}
 						
-						courier.num= courier.piece.end;
-						
 						return courier;
 					},
-					init: { num:start, piece:undefined, },
+					init: { piece:undefined, },
 				},
 				x.pieces,
 				y.pieces,
 			);
 			
-			pieces.forEach( piece=> piece.lines.length || (piece.added= false), );
+			// pieces.forEach( piece=> piece.lines.length || (piece.added= false), );
 			
 			return { start, end, pieces, };
 		}

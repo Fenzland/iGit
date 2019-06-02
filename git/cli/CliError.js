@@ -37,6 +37,6 @@ export default class CliError extends Error
 	 */
 	get locked()
 	{
-		return this.#code === 0x80;
+		return this.message.match( /index\.lock': File exists\./ );
 	}
 }
