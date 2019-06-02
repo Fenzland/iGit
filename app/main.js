@@ -1,7 +1,9 @@
 import '../init.js';
 import { Vue, } from './modules.web.js';
+import Eve from './Eve.js';
 
 Vue.prototype.z= z;
+Vue.use( Eve, );
 
 const app= new Vue( {
 	el: 'body>main',
