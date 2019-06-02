@@ -21,8 +21,9 @@ import router from './app/router.js';
 	
 })( Deno.args, ).catch( e=> {
 	
-	console.error( color.red( '\nThere is something wrong:\n', ), );
-	console.error( e, );
+	console.error( color.red( 'Error:', ), );
+	console.error( color.bgRed( ` ${e.message} `, ), );
+	console.error( e.stack, );
 	
-	Deno.exit( 1, );
+	Deno.exit( e.code|| 1, );
 }, );
