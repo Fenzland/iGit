@@ -7,7 +7,7 @@ import router from './app/router.js';
 (async args=> {
 	args= new Args( ...args );
 	
-	const host= args.getOption( 'host', '0.0.0.0:8888', );
+	const host= args.getOption( 'host', '0.0.0.0:8192', );
 	
 	const app= new App( {
 		router,
