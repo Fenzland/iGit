@@ -11,5 +11,34 @@ export default new Router( {
 			// controller: 'home.js',
 			controller: home,
 		},
+		
+		{
+			path: '/refs',
+			method: 'GET',
+			accept: 'application/json',
+			controller: async ( { app, Response, }, )=> Response.newJSON( await app.git.getRefs(), ),
+		},
+		
+		{
+			path: '/graph',
+			method: 'GET',
+			accept: 'application/json',
+			controller: async ( { app, request, Response, }, )=> Response.newJSON( await app.git.getGraph( request.query.get( 'start', 0, ), request.query.get( 'size', 0x40, ), ), ),
+		},
+		
+		{
+			path: '/changed-files',
+			method: 'GET',
+			accept: 'application/json',
+			controller: async ( { app, Response, }, )=> Response.newJSON( await app.git.getIndex(), ),
+		},
+		
+		{
+			path: '/diff-index',
+			method: 'GET',
+			accept: 'application/json',
+			controller: async ( { app, request, Response, }, )=> Response.newJSON( await app.git.diffIndex( ...request.query.get( 'files[]', ), ), ),
+		},
+		
 	],
 }, );
