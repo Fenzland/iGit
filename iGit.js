@@ -4,9 +4,16 @@ import Args from './cli/Args.js';
 import Git from './git/Git.js';
 import App from './dragonfly/App.js';
 import router from './app/router.js';
+import { renderHelp, renderVersion, } from './app/command-helpers.js';
 
 (async args=> {
 	args= new Args( ...args );
+	
+	if( args.hasOption( 'help', ) )
+		return renderHelp();
+	else
+	if( args.hasOption( 'version', ) )
+		return renderVersion();
 	
 	Git.checkVersion();
 	
