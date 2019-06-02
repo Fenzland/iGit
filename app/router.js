@@ -1,6 +1,5 @@
 import Router from '../dragonfly/routing/Router.js';
-
-import index from './controllers/index.js';
+import home from './controllers/home.js';
 
 export default new Router( {
 	controllerPath: import.meta.url.replace( /router\.js$/, 'controllers/', ),
@@ -9,8 +8,8 @@ export default new Router( {
 			path: '/',
 			method: 'GET',
 			accept: 'text/html',
-			// controller: 'index.js',
-			controller: index,
+			// controller: 'home.js',
+			controller: home,
 		},
 	],
 }, );
