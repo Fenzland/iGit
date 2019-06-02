@@ -9,3 +9,10 @@ body>main>header>.version
 {
 	color: hsla(0,0%,62.5%,1);
 }
+
+.grid-item
+{
+	transition:
+		background-color 200ms
+	;
+}

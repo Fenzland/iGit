@@ -1,0 +1,67 @@
+
+:root
+{
+	width: 100%;
+	height: 100%;
+	
+	font-size: 12px;
+}
+
+body
+{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+body>main
+{
+	--second-row-size: 8;
+	--second-row-size-offset: 0;
+	
+	display: grid;
+	width: calc( 100% - 2px );
+	height: calc( 100% - 2px );
+	overflow: hidden;
+	padding: 1px;
+	grid-gap: 1px;
+	grid-template-columns: 18.75vw auto 31.25vw;
+	grid-template-rows: 4em auto calc(var(--second-row-size)*6.25vh + var(--second-row-size-offset)*1px);
+	grid-template-areas:
+		'header header header'
+		'refs graph changed-files'
+		'content-diff content-diff content-diff'
+	;
+	
+	transition:
+		grid-template-rows 200ms
+	;
+}
+
+body>main>.grid-item
+{
+	transition:
+		width 200ms
+		,
+		height 200ms
+	;
+}
+
+body>main>header
+{
+	grid-area: header;
+	line-height: 4em;
+	padding-left: 1em;
+}
+
+body>main>header>h1
+{
+	display: inline-block;
+}
+
+body>main>header .logo
+{
+	height: 1.4em;
+	padding-top:0.3em;
+	vertical-align: top;
+}
