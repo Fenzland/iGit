@@ -2,6 +2,7 @@
 @import './style/graph.css';
 @import './style/changed-files.css';
 @import './style/content-diff.css';
+@import './style/high-light.css';
 
 ::selection
 {

@@ -1,0 +1,62 @@
+
+.high-light .high-light-item
+{
+	border-radius: 2px;
+}
+
+.high-light .white-space
+{
+	position: relative;
+}
+
+.high-light .white-space::before
+{
+	content: '';
+	position: absolute;
+	color: hsla(0,0%,0%,0.1);
+	background-color: currentColor;
+}
+
+.high-light .indent::before
+{
+	bottom: 0;
+	box-sizing: border-box;
+	background-clip: content-box;
+	width: calc(100% - 2px);
+	height: 1em;
+	padding: calc(0.5em - 0.5px) 0;
+	border-right: 1px dotted;
+}
+
+.high-light .space::before
+{
+	top: 0; right: 0; bottom: 0; left: 0;
+	margin: auto;
+	width: 0.4em;
+	height: 0.4em;
+	border-radius: 50%;
+}
+
+.high-light .feed::before
+{
+	top: 0; right: 0; bottom: 0; left: 0;
+	margin: auto;
+	width: 0.4em;
+	height: 0.4em;
+	background-color: transparent;
+	border-left: 1px solid;
+	border-bottom: 1px solid;
+	transform: translateX(0.2em) rotate(0.125turn);
+}
+
+.high-light .return::before
+{
+	top: 0; right: 0; bottom: 0; left: 0;
+	margin: auto;
+	width: 0.4em;
+	height: 0.8em;
+	background-color: transparent;
+	border-right: 1px solid;
+	border-bottom: 1px solid;
+	border-bottom-right-radius: 0.4em;
+}
