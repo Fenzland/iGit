@@ -1,0 +1,235 @@
+
+.grid-item.content-diff
+{
+	--line-height: 1.5em;
+	--linker-width: 4em;
+	--scroll-line-height: var(--line-height);
+	
+	display: grid;
+	padding: 1em;
+	grid-template-columns: calc(33.3333% - var(--linker-width)) 33.3333% 33.3333%;
+}
+
+.grid-item.content-diff .diff-column
+{
+	display: grid;
+	grid-template-rows: calc(2*var(--line-height)) 1fr;
+}
+
+.grid-item.content-diff>.diff-column>header
+{
+	text-align: center;
+	line-height: calc(2*var(--line-height));
+}
+
+.grid-item.content-diff>.diff-column>header>span
+{
+	padding: 0.5em 0.75em;
+}
+
+.grid-item.content-diff>.diff-column:not(:first-child)>header
+{
+	margin-left: var(--linker-width);
+}
+
+.grid-item.content-diff>.diff-column .scroll-container
+{
+	--scroll-line-height: var(--line-height);
+}
+
+.grid-item.content-diff>.diff-column .scroll-container>.scroll-body
+{
+	display: grid;
+	min-width: 100%;
+	grid-template-columns: var(--linker-width) auto 1fr;
+}
+
+.grid-item.content-diff>.diff-column:first-child .scroll-container>.scroll-body
+{
+	--linker-width: 0;
+}
+
+.grid-item.content-diff .piece
+,
+.grid-item.content-diff .line
+{
+	display: contents;
+}
+
+.grid-item.content-diff .scroll-body .horizontal-through
+{
+	grid-column-start: 2;
+	grid-column-end: 4;
+}
+
+.grid-item.content-diff .scroll-body .gap
+{
+	box-sizing: border-box;
+	height: var(--line-height);
+}
+
+.grid-item.content-diff .scroll-body .piece>.boundary
+{
+	position: relative;
+	z-index: 2;
+	grid-column-start: 2;
+	grid-column-end: 4;
+	margin-top: -1px;
+	height: 1px;
+}
+
+.grid-item.content-diff .scroll-body .piece.deleted>.boundary
+{
+	z-index: 3;
+}
+
+.grid-item.content-diff .piece.deleted>.boundary>.svg-linker
+{
+	--height: 0;
+	--offset: 0;
+	
+	position: absolute;
+	top: calc(var(--offset)*var(--line-height));
+	left: calc(-1*var(--linker-width));
+	height: calc(var(--height)*var(--line-height) + 1px);
+	width: var(--linker-width);
+	transition:
+		top var(--scroll-transition) ease
+		,
+		height var(--scroll-transition) ease
+	;
+}
+
+.grid-item.content-diff .piece.deleted>.boundary>.svg-linker>path.linker-body
+{
+	transition:
+		d var(--scroll-transition) ease
+	;
+}
+
+.grid-item.content-diff .scroll-body .piece>.boundary>.linker:not(svg)
+{
+	display: none;
+}
+
+.grid-item.content-diff .scroll-body .piece>.boundary>.linker
+{
+	--height: 0;
+	
+	position: absolute;
+	top: calc(-1*var(--height)*var(--line-height));
+	left: calc(-1*var(--linker-width));
+	width: var(--linker-width);
+	height: calc(var(--height)*var(--line-height) + 1px);
+	box-sizing: border-box;
+	transition:
+		height var(--scroll-transition) ease
+		,
+		top var(--scroll-transition) ease
+		,
+		transform var(--scroll-transition) steps(1,start)
+	;
+}
+
+.grid-item.content-diff .scroll-body .piece>.boundary>.linker::before
+,
+.grid-item.content-diff .scroll-body .piece>.boundary>.linker::after
+{
+	content: '';
+	position: absolute;
+	border-style: solid;
+	border-width: 0;
+	transition:
+		width var(--scroll-transition)
+	;
+}
+
+.grid-item.content-diff .scroll-body .piece>.boundary>.linker.grow
+{
+	top: calc(-1*var(--height)*var(--line-height));
+}
+
+.grid-item.content-diff .scroll-body .piece>.boundary>.linker::before
+{
+	top: 0;
+	left: 0;
+	width: calc(50% - 1px);
+	height: calc(50% - 1px);
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-top-right-radius: 100% 100%;
+}
+
+.grid-item.content-diff .scroll-body .piece>.boundary>.linker::after
+{
+	bottom: 0;
+	right: 0;
+	width: 50%;
+	height: 50%;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-bottom-left-radius: 100% 100%;
+}
+
+.grid-item.content-diff .scroll-body .piece>.boundary>.linker.drop
+{
+	top: 0;
+	transform: scaleY(-1);
+}
+
+.grid-item.content-diff .scroll-body .piece>footer.boundary>.linker.grow::before
+,
+.grid-item.content-diff .scroll-body .piece>header.boundary>.linker.drop::before
+,
+.grid-item.content-diff .scroll-body .piece>footer.boundary>.linker.drop::after
+,
+.grid-item.content-diff .scroll-body .piece>header.boundary>.linker.grow::after
+{
+	width: calc(43.875% - 1px);
+}
+
+.grid-item.content-diff .scroll-body .piece>footer.boundary>.linker.grow::after
+,
+.grid-item.content-diff .scroll-body .piece>header.boundary>.linker.drop::after
+,
+.grid-item.content-diff .scroll-body .piece>footer.boundary>.linker.drop::before
+,
+.grid-item.content-diff .scroll-body .piece>header.boundary>.linker.grow::before
+{
+	width: 56.125%;
+}
+
+.grid-item.content-diff .scroll-body .piece>.boundary>.linker.plane
+{
+	height: 1px;
+	transition:
+		height var(--scroll-transition) ease
+		,
+		top var(--scroll-transition) ease
+		,
+		transform var(--scroll-transition) steps(1,end)
+	;
+}
+
+.grid-item.content-diff .line
+{
+	line-height: var(--line-height);
+}
+
+.grid-item.content-diff .line>header
+{
+	z-index: 1;
+}
+
+.grid-item.content-diff .line>.line-number
+{
+	z-index: 1;
+	text-align: center;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}
+
+.grid-item.content-diff .line>.content
+{
+	white-space: pre;
+}

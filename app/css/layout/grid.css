@@ -80,3 +80,8 @@ body>main>.changed-files
 {
 	grid-area: changed-files;
 }
+
+body>main>.content-diff
+{
+	grid-area: content-diff;
+}
