@@ -4,6 +4,7 @@ import Args from './cli/Args.js';
 import Git from './git/Git.js';
 import App from './dragonfly/App.js';
 import router from './app/router.js';
+import { openClient, } from './app/client.js';
 import { renderHelp, renderVersion, } from './app/command-helpers.js';
 
 (async args=> {
@@ -34,6 +35,9 @@ import { renderHelp, renderVersion, } from './app/command-helpers.js';
 	app.git= git;
 	
 	app.listenHTTP( host, );
+	
+	if(!( args.hasOption( 'no-client', ) ))
+		await openClient( host, { required:args.hasOption( 'client', ), }, );
 	
 	console.log( `Listening: http://${host.replace( /0\.0\.0\.0:|^:/, 'localhost:', )}`, );
 	console.log( 'Ctrl+C to quit.' );
