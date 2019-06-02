@@ -11,7 +11,7 @@ import router from './app/router.js';
 	
 	const app= new App( {
 		router,
-		webRoot: import.meta.url.replace( /^file:\/\/|\/iGit\.js$/g, '', ),
+		webRoot: import.meta.url.replace( /^file:\/\/|\/iGit\.js$/g, '', ).replace( /\/([A-Z]:\/)/, '$1', ),
 	}, );
 	
 	app.listenHTTP( host, );
