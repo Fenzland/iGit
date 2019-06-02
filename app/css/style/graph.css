@@ -1,0 +1,143 @@
+
+.graph
+{
+	border-radius: 4px;
+	box-shadow: inset 0 0 1px hsla(0,0%,0%,0.5);
+}
+
+.graph.focus
+{
+	background-color: hsla(180,100%,98.5%,1);
+	box-shadow: inset 0 0 4px hsla(180,100%,19%,0.5);
+}
+
+.graph .line>a.commit
+{
+	color: hsla(0,0%,10%,1);
+	text-decoration: none;
+	transition:
+		background-color 200ms
+		,
+		color 200ms
+	;
+}
+
+.graph .line.focus>a.commit
+{
+	background-color: hsla(210,100%,75%,1);
+	color: hsla(0,0%,100%,1);
+}
+
+.graph .line.parent-focus>a.commit
+{
+	background-color: hsla(120,100%,95%,1);
+}
+.graph .line.child-focus>a.commit
+{
+	background-color: hsla(210,100%,95%,1);
+}
+
+.graph .line>.graph-node-wrapper>.graph-node
+{
+	background-color: hsla(0,0%,81.25%,1);
+	transition:
+		background-color 200ms
+	;
+}
+
+.graph .line.focus>.graph-node-wrapper>.graph-node
+{
+	background-color: hsla(210,100%,75%,1);
+}
+
+.graph .line.parent-focus>.graph-node-wrapper>.graph-node
+{
+	background-color: hsla(120,50%,83%,1);
+}
+.graph .line.child-focus>.graph-node-wrapper>.graph-node
+{
+	background-color: hsla(210,50%,83%,1);
+}
+
+.graph .line>.graph-node-wrapper>.tie
+{
+	color: hsla(28,100%,75%,1);
+}
+
+.graph .line>.graph-node-wrapper>.tie.lineal
+{
+	color: hsla(28,100%,50%,1);
+}
+.graph .line>.graph-node-wrapper>.tie.parent-focus
+{
+	color: hsla(120,100%,75%,1);
+}
+.graph .line>.graph-node-wrapper>.tie.parent-focus.lineal
+{
+	color: hsla(120,100%,43.75%,1);
+}
+
+.graph .line>.graph-node-wrapper>.tie.child-focus
+{
+	color: hsla(210,100%,75%,1);
+}
+.graph .line>.graph-node-wrapper>.tie.child-focus.lineal
+{
+	color: hsla(210,100%,50%,1);
+}
+
+.graph .line>.graph-node-wrapper>.straight-tie
+{
+	background-color: hsla(28,100%,75%,1);
+}
+
+.graph .line>.graph-node-wrapper>.straight-tie.parent-focus
+{
+	background-color: hsla(120,100%,75%,1);
+}
+
+.graph .line>.graph-node-wrapper>.straight-tie.child-focus
+{
+	background-color: hsla(210,100%,75%,1);
+}
+
+.graph .detail
+{
+	border-top-left-radius: 4px;
+}
+
+.graph .detail.show
+{
+	box-shadow: 0 0 1px hsla(0,0%,0%,0.5);
+}
+
+.graph.focus .detail.show
+{
+	box-shadow: 0 0 4px hsla(180,100%,19%,0.5);
+}
+
+.graph .detail>.hash
+{
+	border-radius: 2px;
+	background-color: hsla(0,0%,93.75%,1);
+}
+
+.graph.focus .detail>.hash
+{
+	background-color: hsla(180,81.25%,93.75%,1);
+}
+
+.graph .detail>.hash>.short-hash
+{
+	border-radius: 2px 0 0 2px;
+	color: hsla(0,0%,100%,1);
+	background-color: hsla(0,0%,75%,1);
+	text-shadow: 0 0 1px;
+}
+
+.graph.focus .detail>.hash>.short-hash
+{
+	color: hsla(0,0%,100%,1);
+	background-color: hsla(210,100%,75%,1);
+	text-shadow: 0 0 1px;
+}

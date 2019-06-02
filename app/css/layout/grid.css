@@ -70,3 +70,8 @@ body>main>.refs
 {
 	grid-area: refs;
 }
+
+body>main>.graph
+{
+	grid-area: graph;
+}
