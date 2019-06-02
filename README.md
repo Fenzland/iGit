@@ -1,31 +1,38 @@
 iGit
 ================================
 
-**iGit** means interactive git, is a web base GUI for git, powered by [deno](https://deno.land). 
+**iGit** means interactive git. It's contains a web sever and a web base GUI client for git. 
 
-## Installation
+The iGit is powered by git, deno and Vue.js. 
 
-1. Install deno
+The deno is currently under develop, so do the iGit. 
+For now, you can try iGit and find some ideas. 
+If you have better ideas, issues are welcome. 
 
-Follow https://deno.land: 
+## Access iGit
+
+First of all, you need install [deno](https://github.com/denoland/deno_install) and [git](https://git-scm.com/downloads). 
+
+iGit requires:
+* git >= 2.18
+* deno >= 0.4
+
+Recommand client:
+* Google Chrome >= 74
+
+There are three way to access iGit: 
+1. ~Run with url, without install~ (not recommand before stable vesion is relased). 
+2. ~Install normally~ (not recommand before stable vesion is relased). 
+3. Install with `--dev`. 
+
+### Install with `--dev`
+
 ```bash
-curl -fsSL https://deno.land/x/install/install.sh | sh
+deno run --reload --allow-env --allow-run --allow-read --allow-write https://igit.fenz.land/install.js --dev
 ```
 
-2. Set environment
-
-Deno and iGit will be installed in the DENO_DIR, which usually be `~/.deno` by default. 
-
-You need ensure that `~/.deno/bin` or improved `${DENO_DIR:-$HOME/.deno}/bin` is in your PATH. 
-
-When the command `deno` works on your CLI, that's okay.
-
-3. Install iGit
-
-```bash
-deno --allow-env --allow-run --allow-read --allow-write https://igit.fenz.land/install.js
-```
-
-## Usage
-
-Just run command `iGit` in your work directory, and open the echoed URL with your browser.
+By this way, this git repository will be clone into `$DENO_DIR/iGit` directory. 
+And the command `iGit` will be registered. 
+You can run `iGit` under a git repository, and run `iGit --help` to get helps. 
+You can switch version with `git checkout` under the iGit source code directory. 
+You can even modify the source code and try it out immediately. 
