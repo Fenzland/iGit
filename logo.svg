@@ -1,0 +1,43 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 16 16">
+	<path
+		d="
+			M 0 2
+				a 2 2 0 0 1 2 -2
+				h 12
+				a 2 2 0 0 1 2 2
+				v 12
+				a 2 2 0 0 1 -2 2
+				h -12
+				a 2 2 0 0 1 -2 -2
+				z
+		"
+		hsl-fill="hsla(210,100%,95%,1)"
+		fill="#E5F2FF"
+	/>
+	<line
+		x1="4.5"
+		y1="1"
+		x2="4.5"
+		y2="15"
+		fill="none"
+		hsl-stroke="hsla(210,100%,75%,1)"
+		stroke="#80BFFF"
+		stroke-miterlimit="10"
+	/>
+	<path
+		fill="none"
+		hsl-stroke="hsla(210,100%,75%,1)"
+		stroke="#80BFFF"
+		stroke-miterlimit="10"
+		d="
+			M 4.5 15 c 0 -1.5 1.5 -3 3.75 -3 s 3.25 -1.5 3.25 -3 V 6
+		"
+	/>
+	<circle
+		cx="11.5"
+		cy="6"
+		r="2"
+		hsl-fill="hsla(210,100%,95%,1)"
+		fill="#FF8080"
+	/>
+</svg>
