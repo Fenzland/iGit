@@ -1,11 +1,21 @@
 import './init.js';
 import { color, } from './app/modules.deno.js';
 import Args from './cli/Args.js';
+import Git from './git/Git.js';
 import App from './dragonfly/App.js';
 import router from './app/router.js';
 
 (async args=> {
 	args= new Args( ...args );
+	
+	Git.checkVersion();
+	
+	const gitDir= args.getOption( 'git-dir', );
+	const workTree= args.getOption( 'work-tree', );
+	
+	console.log( 'Loading git repository.', );
+	
+	const git= await new Git( gitDir, workTree, );
 	
 	const host= args.getOption( 'host', '0.0.0.0:8192', );
 	
@@ -13,6 +23,8 @@ import router from './app/router.js';
 		router,
 		webRoot: import.meta.url.replace( /^file:\/\/|\/iGit\.js$/g, '', ).replace( /\/([A-Z]:\/)/, '$1', ),
 	}, );
+	
+	app.git= git;
 	
 	app.listenHTTP( host, );
 	
