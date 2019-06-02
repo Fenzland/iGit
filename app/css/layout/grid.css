@@ -75,3 +75,8 @@ body>main>.graph
 {
 	grid-area: graph;
 }
+
+body>main>.changed-files
+{
+	grid-area: changed-files;
+}
