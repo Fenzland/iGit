@@ -1,0 +1,62 @@
+
+.scroll-container
+{
+	--scroll-left: 0;
+	--scroll-top: 0;
+	--move-left: 0;
+	--move-top: 0;
+	--scroll-line-height: 1em;
+	--move-transition: 0;
+	--move-transition-back: cubic-bezier(1,0,0.8,1);
+	--scroll-transitional: 1;
+	--scroll-transition: calc(var(--scroll-transitional)*200ms);
+	
+	overflow: hidden;
+	position: relative;
+}
+.scroll-container>.scroll-body
+{
+	position: absolute;
+	left: calc(var(--move-left)*-1px);
+	top:  calc(var(--move-top)*-1px);
+	transform: translate(
+		calc(-1*var(--scroll-left)*var(--scroll-line-height))
+		,
+		calc(-1*var(--scroll-top)*var(--scroll-line-height))
+	);
+	transition:
+		transform var(--scroll-transition) ease
+		,
+		left calc(var(--move-transition)*1ms) var(--move-transition-back)
+		,
+		top calc(var(--move-transition)*1ms) var(--move-transition-back)
+	;
+}
+
+.scroll-container>.scroll-body .fixed-horizontal
+{
+	position: relative;
+	left: calc(var(--move-left)*1px);
+	transform: translateX(
+		calc(var(--scroll-left)*var(--scroll-line-height))
+	);
+	transition:
+		transform var(--scroll-transition) ease
+		,
+		left calc(var(--move-transition)*1ms) var(--move-transition-back)
+	;
+}
+
+.scroll-container>.scroll-body .fixed-vertical
+{
+	position: relative;
+	top: calc(var(--move-top)*1px);
+	transform: translateY(
+		calc(var(--scroll-top)*var(--scroll-line-height))
+	);
+	transition:
+		transform var(--scroll-transition) ease
+		,
+		top calc(var(--move-transition)*1ms) var(--move-transition-back)
+	;
+}
