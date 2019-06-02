@@ -1,4 +1,5 @@
 import scrollingList from './scrolling-list.js';
+import highLight from './high-light.js';
 import { diffFileOnIndex, } from '../git-data.js';
 import { ext2mime, } from '../../dragonfly/http/mime.js';
 import { deepAssign, multipleReduce, } from '../modules.js';
@@ -137,7 +138,7 @@ export default {
 													(++lineIndex, ''),
 													_( 'header', { class:[ 'linker-gap', 'fixed-horizontal', ], }, ),
 													_( 'span', { class:[ 'line-number', 'fixed-horizontal', ], }, line.num, ),
-													_( 'div', { class:'content', props:{ mime:getMIME( this[column].file, ), content:line.content, }, }, ),
+													_( 'high-light', { class:'content', props:{ mime:getMIME( this[column].file, ), content:line.content, }, }, ),
 												], ),
 											),
 											_( 'footer', { class:[ 'boundary', 'horizontal-through', 'fixed-horizontal', ], }, !(followStops && followStops.length && piece.deleted)? []: [
@@ -192,7 +193,7 @@ export default {
 		return vdom;
 	},
 	
-	components: { scrollingList, },
+	components: { scrollingList, highLight, },
 	
 	props: {
 		focused: {
