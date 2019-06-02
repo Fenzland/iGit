@@ -65,3 +65,8 @@ body>main>header .logo
 	padding-top:0.3em;
 	vertical-align: top;
 }
+
+body>main>.refs
+{
+	grid-area: refs;
+}

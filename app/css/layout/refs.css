@@ -1,0 +1,57 @@
+
+.grid-item.refs
+{
+	--ref-size: 2em;
+	--scroll-line-height: var(--ref-size);
+	
+	line-height: var(--ref-size);
+}
+
+.grid-item.refs .ref-list
+{
+	margin-left: 1em;
+}
+
+.grid-item.refs .ref-node
+{
+	white-space: nowrap;
+}
+
+.grid-item.refs .ref-tree>.ref-list
+{
+	position: relative;
+}
+.grid-item.refs .ref-tree>.ref-list::before
+{
+	content: '';
+	position: absolute;
+	top: 0; bottom: 0;
+	left: -1.25em;
+	width: 0.5em;
+	border-top: 1px solid;
+	border-right: 1px dotted;
+	border-top-right-radius: 0.5em;
+}
+
+.grid-item.refs .ref-list>.ref-node>.title
+{
+	content: '';
+	position: relative;
+	width: fit-content;
+}
+
+.grid-item.refs .ref-list>.ref-node>.title
+{
+	position: relative;
+	width: fit-content;
+}
+
+.grid-item.refs .ref-list>.ref-node>.title::before
+{
+	content: '';
+	position: absolute;
+	z-index: -1;
+	top: -0.125em; bottom: -0.125em;
+	left: -0.25em; right: -0.25em;
+	border-radius: 4px;
+}
