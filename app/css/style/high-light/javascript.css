@@ -1,0 +1,46 @@
+
+.high-light.application--javascript .comment
+{
+	color: hsla(0,0%,60%,1);
+}
+
+.high-light.application--javascript .string
+{
+	color: hsla(330,100%,60%,1);
+}
+
+.high-light.application--javascript .regex
+{
+	color: hsla(45,100%,40%,1);
+}
+
+.high-light.application--javascript .keyword
+{
+	color: hsla(240,100%,40%,1);
+}
+
+.high-light.application--javascript .keyword.declarer
+{
+	color: hsla(220,100%,60%,1);
+	font-weight: bolder;
+}
+
+.high-light.application--javascript .keyword.operator
+{
+	color: hsla(210,100%,60%,1);
+}
+
+.high-light.application--javascript .keyword.operator-like
+{
+	color: hsla(210,100%,60%,1);
+}
+
+.high-light.application--javascript .keyword.value
+{
+	color: hsla(0,100%,40%,1);
+}
+
+.high-light.application--javascript .symbol
+{
+	color: hsla(0,25%,40%,1);
+}
