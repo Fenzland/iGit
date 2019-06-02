@@ -1,0 +1,41 @@
+@import url('https://cdn.jsdelivr.net/gh/tonsky/FiraCode@1.206/distr/fira_code.css');
+
+:root
+{
+	font-family: 'Fira Code', monospace;
+	user-select: none;
+	tab-size: 4;
+}
+
+body
+{
+	margin: 0;
+}
+
+ul
+{
+	margin: 0;
+	padding: 0;
+}
+
+li
+{
+	list-style: none;
+}
+
+h1
+,
+p
+{
+	margin: 0;
+}
+
+summary::-webkit-details-marker
+{
+	display: none;
+}
+
+:focus
+{
+	outline: none;
+}

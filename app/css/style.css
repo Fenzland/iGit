@@ -1,0 +1,11 @@
+
+::selection
+{
+	background-color: transparent;
+	text-shadow: 0 0 1px;
+}
+
+body>main>header>.version
+{
+	color: hsla(0,0%,62.5%,1);
+}

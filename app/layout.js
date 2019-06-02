@@ -5,8 +5,8 @@ export default /*HTML*/`
 	<head>
 		<meta charset="utf-8" />
 		<title>iGit</title>
-		<link rel="stylesheet" type="text/css" href="/app/layout.css" />
-		<link rel="stylesheet" type="text/css" href="/app/style.css" />
+		<link rel="stylesheet" type="text/css" href="/app/css/layout.css" />
+		<link rel="stylesheet" type="text/css" href="/app/css/style.css" />
 	</head>
 	<body>
 		<main id="main"></main>
