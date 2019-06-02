@@ -1,0 +1,156 @@
+
+.grid-item.content-diff
+{
+	border-radius: 4px;
+	box-shadow: inset 0 0 1px hsla(0,0%,0%,0.5);
+}
+
+.grid-item.content-diff.focus
+{
+	box-shadow: inset 0 0 4px hsla(210,100%,19%,0.5);
+}
+
+.grid-item.content-diff>.diff-column>header>span
+{
+	background-color: hsla(0,0%,100%,1);
+	border-radius: 1em;
+}
+.grid-item.content-diff .content-area
+{
+	border-radius: 4px;
+	background-color: hsla(0,0%,100%,1);
+}
+
+.grid-item.content-diff .piece
+{
+	--bg-opacity: 0.125;
+	--ln-bg-lightness: 93.75%;
+}
+
+.grid-item.content-diff .piece.focus
+{
+	--bg-opacity: 0.375;
+	--ln-bg-lightness: 75%;
+}
+
+.grid-item.content-diff .piece>.line>.content
+{
+	transition:
+		background-color 200ms ease
+	;
+}
+.grid-item.content-diff .piece>.line>.line-number
+,
+.grid-item.content-diff .piece>.boundary
+{
+	transition:
+		transform var(--scroll-transition) ease
+		,
+		left calc(var(--move-transition)*1ms) var(--move-transition-back)
+		,
+		background-color 200ms ease
+	;
+}
+
+.grid-item.content-diff .piece>.line>.line-number
+{
+	background-color: hsla(0,0%,var(--ln-bg-lightness),0.875);
+}
+
+.grid-item.content-diff .piece.added>.line>.line-number
+{
+	background-color: hsla(120,100%,var(--ln-bg-lightness),0.875);
+}
+
+.grid-item.content-diff .piece.added>.line>.content
+{
+	background-color: hsla(120,100%,50%,var(--bg-opacity));
+}
+
+.grid-item.content-diff .piece.added>.boundary
+{
+	background-color: hsla(120,100%,50%,var(--bg-opacity));
+}
+
+.grid-item.content-diff .piece.deleted>.line>.line-number
+{
+	background-color: hsla(0,100%,var(--ln-bg-lightness),0.875);
+}
+
+.grid-item.content-diff .piece.deleted>.line>.content
+{
+	background-color: hsla(0,100%,50%,var(--bg-opacity));
+}
+
+.grid-item.content-diff .piece.deleted>.boundary
+{
+	background-color: hsla(0,100%,50%,var(--bg-opacity));
+}
+
+.grid-item.content-diff .piece.added.deleted>.line>.line-number
+{
+	background-color: hsla(60,100%,var(--ln-bg-lightness),0.875);
+}
+
+.grid-item.content-diff .piece.added.deleted>.boundary
+{
+	background-color: hsla(60,100%,50%,var(--bg-opacity));
+}
+
+.grid-item.content-diff .piece.added.deleted>.line>.content
+{
+	background-color: hsla(60,100%,50%,var(--bg-opacity));
+}
+
+.grid-item.content-diff .linker-gap
+{
+	background-color: hsla(0,0%,100%,1);
+}
+
+.grid-item.content-diff .piece.deleted>.boundary>.svg-linker>.gradient>stop
+{
+	transition:
+		stop-color 200ms ease
+	;
+}
+.grid-item.content-diff .piece.deleted>.boundary>.svg-linker>.gradient>stop:nth-child(1)
+{
+	stop-color: hsla(120,100%,50%,var(--bg-opacity));
+}
+.grid-item.content-diff .piece.deleted>.boundary>.svg-linker>.gradient>stop:nth-child(2)
+{
+	stop-color: hsla(60,100%,50%,var(--bg-opacity));
+}
+.grid-item.content-diff .piece.deleted>.boundary>.svg-linker>.gradient>stop:nth-child(3)
+{
+	stop-color: hsla(0,100%,50%,var(--bg-opacity));
+}
+
+.grid-item.content-diff .piece.deleted>.boundary>.linker::before
+{
+	border-top-color: hsla(120,100%,50%,0.5);
+	border-bottom-color: hsla(120,100%,50%,0.5);
+	border-left-color: hsla(40,100%,50%,0.5);
+	border-right-color: hsla(80,100%,50%,0.5);
+	/*border-image: linear-gradient(0.25turn,hsla(120,100%,50%,0.5),hsla(60,100%,45%,0.5)) 1;*/
+}
+
+.grid-item.content-diff .piece.deleted>.boundary>.linker::after
+{
+	border-top-color: hsla(0,100%,50%,0.5);
+	border-bottom-color: hsla(0,100%,50%,0.5);
+	border-left-color: hsla(40,100%,50%,0.5);
+	border-right-color: hsla(80,100%,50%,0.5);
+	/*border-image: linear-gradient(0.25turn,hsla(60,100%,45%,0.5),hsla(0,100%,50%,0.5)) 1;*/
+}
+
+.grid-item.content-diff .scroll-body .piece>.boundary>.linker.plane
+{
+	/*background-image: linear-gradient(0.25turn,hsla(120,100%,50%,0.875),hsla(60,100%,45%,0.875),hsla(0,100%,50%,0.875));*/
+}
+
+.grid-item.content-diff .scroll-body>.gap
+{
+	background-clip: content-box;
+	background-color: hsla(0,0%,93.75%,1);
+}

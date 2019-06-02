@@ -1,0 +1,46 @@
+
+.high-light.text--css .comment
+{
+	color: hsla(0,0%,60%,1);
+}
+
+.high-light.text--css .attribute
+{
+	color: hsla(40,100%,35%,1);
+}
+
+.high-light.text--css .at-rule
+{
+	color: hsla(210,100%,50%,1);
+}
+
+.high-light.text--css .important
+{
+	background-color: hsla(0,100%,50%,1) !important;
+	color: white;
+}
+
+.high-light.text--css .selector
+{
+	color: hsla(210,100%,35%,1);
+}
+
+.high-light.text--css .selector.id
+{
+	color: hsla(0,100%,50%,1);
+}
+
+.high-light.text--css .selector.class
+{
+	color: hsla(330,100%,35%,1);
+}
+
+.high-light.text--css .selector.pseudo-class
+{
+	color: hsla(210,100%,60%,1);
+}
+
+.high-light.text--css .selector.pseudo-element
+{
+	color: hsla(210,100%,35%,1);
+}

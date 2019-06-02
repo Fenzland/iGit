@@ -1,0 +1,23 @@
+@import './style/refs.css';
+@import './style/graph.css';
+@import './style/changed-files.css';
+@import './style/content-diff.css';
+@import './style/high-light.css';
+
+::selection
+{
+	background-color: transparent;
+	text-shadow: 0 0 1px;
+}
+
+body>main>header>.version
+{
+	color: hsla(0,0%,62.5%,1);
+}
+
+.grid-item
+{
+	transition:
+		background-color 200ms
+	;
+}

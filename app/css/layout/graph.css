@@ -1,0 +1,330 @@
+
+.grid-item.graph
+{
+	--graph-size: 2em;
+	
+	--scroll-line-height: var(--graph-size);
+}
+
+.grid-item.graph .line
+{
+	line-height: var(--graph-size);
+	white-space: nowrap;
+}
+
+.grid-item.graph .line>.commit
+{
+	display: inline-block;
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
+.grid-item.graph .line>.ref-list
+{
+	display: inline-block;
+	height: var(--graph-size);
+	vertical-align: bottom;
+}
+
+.grid-item.graph .line>.ref-list>.ref
+{
+	display: inline-block;
+	font-size: 0.75rem;
+	margin: 0 0.5em;
+}
+
+.grid-item.graph .line>.graph-node-wrapper
+{
+	--offset: 0;
+	--width: 1;
+	
+	display: inline-block;
+	position: relative;
+	vertical-align: bottom;
+	margin-left: calc(var(--offset)*var(--graph-size));
+	margin-right: calc((var(--width) - var(--offset) - 1)*var(--graph-size));
+	width: var(--graph-size);
+	height: var(--graph-size);
+}
+
+.grid-item.graph .line>.graph-node-wrapper>.graph-node
+{
+	display: block;
+	position: absolute;
+	z-index: 1;
+	top: 0; right: 0; bottom: 0; left: 0;
+	margin: auto;
+	width:  calc(0.5*var(--graph-size));
+	height: calc(0.5*var(--graph-size));
+	border-radius: 50%;
+}
+
+.grid-item.graph .line>.graph-node-wrapper>.tie
+{
+	--dx: 0;
+	--dy: -1;
+	--abs-dx: 0;
+	--abs-dy: 1;
+	
+	position: absolute;
+	bottom: calc(0.5*var(--graph-size));
+	width: calc(var(--abs-dx)*var(--graph-size));
+	height: calc(-1*var(--dy)*var(--graph-size));
+}
+
+.grid-item.graph .line>.graph-node-wrapper>.tie
+,
+.grid-item.graph .line>.graph-node-wrapper>.tie::before
+,
+.grid-item.graph .line>.graph-node-wrapper>.tie::after
+{
+	border-style: solid;
+	border-width: 0;
+}
+
+.grid-item.graph .line>.graph-node-wrapper>.tie.up
+{
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	border-left-width: 1px;
+}
+
+.grid-item.graph .line>.graph-node-wrapper>.tie.lineal-right
+{
+	left: calc(0.5*var(--graph-size));
+	width: calc(var(--dx)*var(--graph-size)/2);
+	height: calc(var(--graph-size)/2);
+	border-top-width: 1px;
+	border-left-width: 1px;
+	border-top-left-radius: calc(var(--dx)*var(--graph-size)) var(--graph-size);
+}
+
+.grid-item.graph .line>.graph-node-wrapper>.tie.lineal-right::after
+{
+	content: '';
+	position: absolute;
+	left: 100%;
+	bottom: 100%;
+	width: calc(var(--dx)*var(--graph-size)/2 - 1px);
+	height: calc((-1*var(--dy) - 0.5)*var(--graph-size));
+	border-bottom-width: 1px;
+	border-right-width: 1px;
+	border-bottom-right-radius: calc(var(--dx)*var(--graph-size)) var(--graph-size);
+}
+
+.grid-item.graph .line>.graph-node-wrapper>.tie.up-left
+{
+	right: calc(0.5*var(--graph-size));
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-top-right-radius: calc(-1*var(--dx)*var(--graph-size)) var(--graph-size);
+}
+
+.grid-item.graph .line>.graph-node-wrapper>.tie.up-right
+{
+	left: calc(0.5*var(--graph-size));
+	border-top-width: 1px;
+	border-left-width: 1px;
+	border-top-left-radius: calc(var(--dx)*var(--graph-size)) var(--graph-size);
+}
+
+.grid-item.graph .line>.graph-node-wrapper>.tie.right-up-left
+{
+	left: calc(0.5*var(--graph-size));
+	width: calc(var(--x)*var(--graph-size));
+	height: calc((-1*var(--dy) - 1)*var(--graph-size));
+	min-width: calc(0.5*var(--graph-size));
+	min-height: calc(0.5*var(--graph-size));
+	border-bottom-width: 1px;
+	border-right-width: 1px;
+	border-bottom-right-radius: 100% var(--graph-size);
+}
+.grid-item.graph .line>.graph-node-wrapper>.tie.right-up-left::after
+{
+	content: '';
+	position: absolute;
+	bottom: 100%;
+	right: -1px;
+	width: calc((var(--x) - var(--dx))*var(--graph-size));
+	height: calc((-1*var(--dy) - 0.5)*var(--graph-size));
+	min-width: calc((0.5 - var(--dx))*var(--graph-size));
+	max-height: var(--graph-size);
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-top-right-radius: calc((var(--x) - var(--dx))*var(--graph-size)) var(--graph-size);
+}
+
+.grid-item.graph .line>.graph-node-wrapper>.tie.right-up-right
+{
+	left: calc(0.5*var(--graph-size));
+	width: calc(var(--x)*var(--graph-size));
+	height: calc((-1*var(--dy) - 1)*var(--graph-size));
+	min-width: calc(0.5*var(--graph-size));
+	min-height: calc(0.5*var(--graph-size));
+	border-bottom-width: 1px;
+	border-right-width: 1px;
+	border-bottom-right-radius: 100% var(--graph-size);
+}
+.grid-item.graph .line>.graph-node-wrapper>.tie.right-up-right::after
+{
+	content: '';
+	position: absolute;
+	bottom: 100%;
+	left: calc(100% + 1px);
+	width: calc((var(--dx) - var(--x))*var(--graph-size));
+	height: calc((-1*var(--dy) - 0.5)*var(--graph-size));
+	max-width: calc((var(--dx) - 0.5)*var(--graph-size));
+	max-height: var(--graph-size);
+	border-top-width: 1px;
+	border-left-width: 1px;
+	border-top-left-radius: calc((var(--dx) - var(--x))*var(--graph-size)) var(--graph-size);
+}
+
+.grid-item.graph .line>.graph-node-wrapper>.tie.left-up-right
+{
+	right: calc(0.5*var(--graph-size));
+	width: calc(-1*var(--x)*var(--graph-size));
+	height: calc((-1*var(--dy) - 1)*var(--graph-size));
+	min-height: calc(0.5*var(--graph-size));
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-bottom-left-radius: 100% var(--graph-size);
+}
+.grid-item.graph .line>.graph-node-wrapper>.tie.left-up-right::after
+{
+	content: '';
+	position: absolute;
+	bottom: 100%;
+	left: -1px;
+	width: calc((var(--dx) - var(--x))*var(--graph-size));
+	height: calc((-1*var(--dy) - 0.5)*var(--graph-size));
+	max-height: var(--graph-size);
+	border-top-width: 1px;
+	border-left-width: 1px;
+	border-top-left-radius: calc((var(--dx) - var(--x))*var(--graph-size)) var(--graph-size);
+}
+
+.grid-item.graph .line>.graph-node-wrapper>.tie.left-up-left
+{
+	right: calc(0.5*var(--graph-size));
+	width: calc(-1*var(--x)*var(--graph-size));
+	height: calc((-1*var(--dy) - 1)*var(--graph-size));
+	min-height: calc(0.5*var(--graph-size));
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-bottom-left-radius: 100% var(--graph-size);
+}
+.grid-item.graph .line>.graph-node-wrapper>.tie.left-up-left::after
+{
+	content: '';
+	position: absolute;
+	bottom: 100%;
+	right: calc(100% + 1px);
+	width: calc((var(--x) - var(--dx))*var(--graph-size));
+	height: calc((-1*var(--dy) - 0.5)*var(--graph-size));
+	max-height: var(--graph-size);
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-top-right-radius: calc((var(--x) - var(--dx))*var(--graph-size)) var(--graph-size);
+}
+
+.grid-item.graph .line.threads>.graph-node-wrapper>.tie
+{
+	height: calc((-1*var(--dy) - 0.5)*var(--graph-size));
+	bottom: calc(1*var(--graph-size));
+}
+
+.grid-item.graph .line.threads>.graph-node-wrapper>.tie::before
+{
+	content: '';
+	position: absolute;
+	top: 100%;
+	right: 0;
+	height: calc(0.5*var(--graph-size));
+	border-left-width: 1px;
+	border-left-style: dashed;
+}
+
+.grid-item.graph .line.threads>.graph-node-wrapper>.tie.up-left::before
+{
+	right: -1px;
+}
+
+.grid-item.graph .line>.graph-node-wrapper>.straight-tie
+{
+	--x: 0;
+	--dx: 0;
+	--dy: -1;
+	--abs-dx: 0;
+	--abs-dy: 1;
+	
+	position: absolute;
+	bottom: calc(0.5*var(--graph-size));
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	width: calc(0.05*var(--graph-size));
+	height: calc(-1*var(--dy)*var(--graph-size));
+	transform-origin: bottom;
+	transform: matrix(
+		calc(1 + var(--abs-dx)/var(--abs-dy)), 0,
+		calc(var(--dx)/var(--dy)), 1,
+		1, 1
+	);
+}
+
+.grid-item.graph .detail
+{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	max-width: 61.8%;
+	padding: 1em;
+	background: white;
+	transform: translateX( 100% );
+	transition:
+		transform 200ms
+		,
+		box-shadow 200ms
+	;
+}
+
+.grid-item.graph .detail.show
+{
+	transform: translateX( 0 );
+}
+
+.grid-item.graph .detail>.hash
+{
+	margin-bottom: 0.5em;
+	width: fit-content;
+	padding: 0.125em 0.25em 0.125em 0;
+}
+
+.grid-item.graph .detail>.hash>.short-hash
+{
+	margin-right: 0.125em;
+	padding: 0.125em 0.25em;
+}
+
+.grid-item.graph .detail>.ref-list
+{
+	margin-bottom: 0.5em;
+}
+
+.grid-item.graph .detail>.ref-list>.ref
+{
+	display: inline-block;
+	font-size: 0.75rem;
+	margin-right: 1em;
+}
+
+.grid-item.graph .detail>.author
+{
+	margin-left: auto;
+	width: fit-content;
+	text-align: center;
+}
