@@ -285,8 +285,6 @@ export default {
 				case 'Home':
 				case 'End':
 					return this.scrollToFocus(), true;
-				
-				case 'd': this.toggleDetail(); break;
 			}
 		},
 		
