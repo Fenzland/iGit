@@ -2,10 +2,10 @@ import scrollingList from './scrolling-list.js';
 import { getChangedFiles, } from '../git-data.js';
 
 const template= /*HTML*/`
-<scrolling-list ref="scrollingList" :class="{ 'grid-item': 1, 'changed-files': 1, focus: focused, }" :focus-line="focusLine || 0" :size="data.length" :page-size="pageSize">
+<scrolling-list ref="scrollingList" :class="[ 'grid-item', 'changed-files', { focus:focused, }, ]" :focus-line="focusLine || 0" :size="data.length" :page-size="pageSize">
 	<template v-if="data.length">
 		<template v-for="( item, index ) of data">
-			<li :class="{ line: 1, focus: focusLine === index, }"
+			<li :class="[ 'line', { focus: focusLine === index, }, ]"
 				><span :class="[ 'flag', 'staged', item.staged, ]"></span
 				><span :class="[ 'flag', 'unstaged', item.unstaged, ]"></span
 				><a class="file" v-on:click="focusTo( index, )">{{ item.file }}</a

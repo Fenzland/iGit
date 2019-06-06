@@ -2,29 +2,33 @@ import scrollingList from './scrolling-list.js';
 import { getGraph, appendGraph, } from '../git-data.js';
 
 const template= /*HTML*/`
-<scrolling-list ref="scrollingList" :class="{ 'grid-item': 1, graph: 1, focus: focused, }" :focus-line="scrollCenterLine" :size="graph.length" :page-size="pageSize" :init-offset="-0.5">
+<scrolling-list ref="scrollingList" :class="[ 'grid-item', 'graph', { focus:focused, }, ]" :focus-line="scrollCenterLine" :size="graph.length" :page-size="pageSize" :init-offset="-0.5">
 	<template v-for="( line, index ) of graph">
-		<li :class="{
-			line: 1,
-			focus: focusLine === index,
-			'parent-focus': line.parents && line.parents.some( parent=> parent.commit === currentCommit, ),
-			'child-focus': line.children && line.children.some( child=> child.commit === currentCommit, ),
-		}">
+		<li :class="[
+			'line',
+			{
+				focus: focusLine === index,
+				'parent-focus': line.parents && line.parents.some( parent=> parent.commit === currentCommit, ),
+				'child-focus': line.children && line.children.some( child=> child.commit === currentCommit, ),
+			}
+		]">
 			<span class="graph-node-wrapper" :style="{ '--offset': line.column, '--width': line.width, }">
 				<template v-for="child of line.children">
 					<span
-						:class="{
-							'tie': 1,
-							'up': child.x === 0 && child.dx === 0,
-							'right-up-left': child.x >= 0 && child.dx < child.x,
-							'right-up-right': child.x >= 0 && child.dx > child.x,
-							'left-up-right': child.x < 0 && child.dx > child.x,
-							'left-up-left': child.x < 0 && child.dx < child.x,
-							'lineal-right': child.x > 0 && child.dx === child.x,
-							'lineal': child.lineal,
-							'parent-focus': focusLine === index,
-							'child-focus': focusLine === index - - child.dy,
-						}"
+						:class="[
+							'tie',
+							{
+								'up': child.x === 0 && child.dx === 0,
+								'right-up-left': child.x >= 0 && child.dx < child.x,
+								'right-up-right': child.x >= 0 && child.dx > child.x,
+								'left-up-right': child.x < 0 && child.dx > child.x,
+								'left-up-left': child.x < 0 && child.dx < child.x,
+								'lineal-right': child.x > 0 && child.dx === child.x,
+								'lineal': child.lineal,
+								'parent-focus': focusLine === index,
+								'child-focus': focusLine === index - - child.dy,
+							},
+						]"
 						:style="{
 							'--x': child.x,
 							'--dx': child.dx,
@@ -66,15 +70,14 @@ const template= /*HTML*/`
 				<span class="graph-node-wrapper">
 					<template v-if="thread">
 						<span
-							:class="{
-								'tie': 1,
-								'up': index === thread.column,
-								'up-left': index > thread.column,
-								'up-right': index < thread.column,
-								'lineal': thread.lineal,
-								'parent-focus': 0,
-								'child-focus': focusLine === thread.row,
-							}"
+							:class="[
+								'tie',
+								(index > thread.column? 'up-left': index < thread.column? 'up-right': 'up'),
+								{
+									'lineal': thread.lineal,
+									'child-focus': focusLine === thread.row,
+								}
+							]"
 							:style="{
 								'--x': thread.column,
 								'--dx': thread.column - index,
