@@ -1,7 +1,6 @@
 import { path, } from '../modules.deno.js';
 import Route from './Route.js';
 import Response from '../http/Response.js';
-import notFoundRoute from './not-found.js';
 
 export default class Router
 {
@@ -14,11 +13,6 @@ export default class Router
 	 * @type []{Route}
 	 */
 	#routes;
-	
-	/**
-	 * @type {Route}
-	 */
-	#failback= notFoundRoute;
 	
 	/**
 	 * Consturct a router
@@ -36,8 +30,6 @@ export default class Router
 			
 			return new Route( route, );
 		}, );
-		
-		this.#failback= notFoundRoute;
 	}
 	
 	/**
@@ -59,7 +51,7 @@ export default class Router
 			}
 			
 			return result;
-		}, { level: 0, route: this.#failback, }, ).route;
+		}, { level: 0, route: null, }, ).route;
 	}
 }
 

@@ -3,6 +3,7 @@ import { file_length, read_file, is_file, } from './utils/fs.js';
 import Request from './http/Request.js';
 import Response from './http/Response.js';
 import { ext2mime, } from './http/mime.js';
+import notFound from './routing/not-found.js';
 
 /**
  * main Application class of Dragonfly
@@ -44,20 +45,23 @@ export default class App
 		{
 			const request= new Request( denoRequest, );
 			
+			const route= this.#router.dispatch( request, );
+			
+			if( route )
+			{
+				const response= await route.run( { request, app:this, }, );
+				
+				denoRequest.respond( response, );
+			}
+			else
 			if( await this.hasFile( request.path, ) )
 			{
 				const path= `${this.#webRoot}${request.path}`;
 				
 				denoRequest.respond( await makeFileResponse( path, ), );
-				
-				continue;
 			}
-			
-			const route= this.#router.dispatch( request, );
-			
-			const response= await route.run( { request, app: this, }, );
-			
-			denoRequest.respond( response, );
+			else
+				denoRequest.respond( await notFound( { request, app:this, }, ), );
 		}
 	}
 	
