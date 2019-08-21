@@ -39,10 +39,20 @@ export default class App
 	 * 
 	 * @return ~<void>
 	 */
-	async listenHTTP( host, )
+	async listenHTTP( host, { concurrency=8, }={}, )
 	{
-		for await( const denoRequest of httpServer.serve( host, ) )
-		{
+		const listen= async ( server, )=> {
+			const { value, done, }= await server.next();
+			
+			if( done )
+				return;
+			
+			handle( value, );
+			
+			listen( server, );
+		};
+		
+		const handle= async ( denoRequest, )=> {
 			const request= new Request( denoRequest, );
 			
 			const route= this.#router.dispatch( request, );
@@ -62,7 +72,12 @@ export default class App
 			}
 			else
 				denoRequest.respond( await notFound( { request, app:this, }, ), );
-		}
+		};
+		
+		const server= httpServer.serve( host, )[Symbol.asyncIterator]();
+		
+		for( let i= 0; i < concurrency; ++i )
+			listen( server, );
 	}
 	
 	/**
