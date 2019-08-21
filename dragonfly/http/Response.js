@@ -73,11 +73,10 @@ export default class Response
 	 */
 	static newHTML( body, { status=200, headers={}, }={}, )
 	{
-		headers= Object.assign( {
+		return new this( { status, body, headers:{
 			'Content-Type': 'text/html;charset=utf-8',
-		}, headers, );
-		
-		return new this( { status, body, headers, }, );
+			...headers,
+		}, }, );
 	}
 	
 	/**
@@ -90,19 +89,15 @@ export default class Response
 	 * 
 	 * @return {Response}
 	 */
-	static newJSON( body, { status=200, headers={}, }={}, )
+	static newJSON( body=null, { status=200, headers={}, }={}, )
 	{
-		if( body === undefined )
-			body= null;
-		
 		if(!( typeof body === 'string' && isJson( body, ) ))
 			body= JSON.stringify( body, );
 		
-		headers= Object.assign( {
+		return new this( { status, body, headers:{
 			'Content-Type': 'application/json',
-		}, headers, );
-		
-		return new this( { status, body, headers, }, );
+			...headers,
+		}, }, );
 	}
 }
 
