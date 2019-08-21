@@ -99,6 +99,24 @@ export default class Response
 			...headers,
 		}, }, );
 	}
+	
+	/**
+	 * Construct a redirect response
+	 * 
+	 * @param location   (string)  location URL
+	 *                   <mixed>   something will be JSON.stringified
+	 * @param 1.?status  (number)
+	 * @param 1.?headers {}
+	 * 
+	 * @return {Response}
+	 */
+	static redirect( location, { status=301, headers={}, }={}, )
+	{
+		return new this( { status, headers:{
+			'Location': location,
+			...headers,
+		}, }, );
+	}
 }
 
 /**
