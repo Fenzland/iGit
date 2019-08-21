@@ -24,7 +24,7 @@ export default class Response
 	 * @param 0.?status  (number)
 	 * @param 0.?headers {}
 	 */
-	constructor( { body, status=200, headers={}, }, )
+	constructor( { body='', status=200, headers={}, }, )
 	{
 		this.#status= status;
 		this.#headers= new Headers( headers, );
@@ -41,7 +41,7 @@ export default class Response
 	/**
 	 * @return (number)
 	 */
-	get stotus()
+	get status()
 	{
 		return this.#status;
 	}
