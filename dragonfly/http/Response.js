@@ -24,7 +24,7 @@ export default class Response
 	 * @param 0.?status  (number)
 	 * @param 0.?headers {}
 	 */
-	constructor( { body, status=200, headers={}, }, )
+	constructor( { body='', status=200, headers={}, }, )
 	{
 		this.#status= status;
 		this.#headers= new Headers( headers, );
@@ -41,7 +41,7 @@ export default class Response
 	/**
 	 * @return (number)
 	 */
-	get stotus()
+	get status()
 	{
 		return this.#status;
 	}
@@ -73,11 +73,10 @@ export default class Response
 	 */
 	static newHTML( body, { status=200, headers={}, }={}, )
 	{
-		headers= Object.assign( {
+		return new this( { status, body, headers:{
 			'Content-Type': 'text/html;charset=utf-8',
-		}, headers, );
-		
-		return new this( { status, body, headers, }, );
+			...headers,
+		}, }, );
 	}
 	
 	/**
@@ -90,19 +89,33 @@ export default class Response
 	 * 
 	 * @return {Response}
 	 */
-	static newJSON( body, { status=200, headers={}, }={}, )
+	static newJSON( body=null, { status=200, headers={}, }={}, )
 	{
-		if( body === undefined )
-			body= null;
-		
 		if(!( typeof body === 'string' && isJson( body, ) ))
 			body= JSON.stringify( body, );
 		
-		headers= Object.assign( {
+		return new this( { status, body, headers:{
 			'Content-Type': 'application/json',
-		}, headers, );
-		
-		return new this( { status, body, headers, }, );
+			...headers,
+		}, }, );
+	}
+	
+	/**
+	 * Construct a redirect response
+	 * 
+	 * @param location   (string)  location URL
+	 *                   <mixed>   something will be JSON.stringified
+	 * @param 1.?status  (number)
+	 * @param 1.?headers {}
+	 * 
+	 * @return {Response}
+	 */
+	static redirect( location, { status=301, headers={}, }={}, )
+	{
+		return new this( { status, headers:{
+			'Location': location,
+			...headers,
+		}, }, );
 	}
 }
 
