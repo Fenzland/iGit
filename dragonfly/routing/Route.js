@@ -86,22 +86,15 @@ export default class Route
 	 */
 	async run( { request, app, }, )
 	{
-		let controller, responded, status;
+		const args= request.path.matchGroup( this.#path, );
 		
-		if( this.#controller instanceof Function )
-			controller= this.#controller;
-		else
-		{
-			const importing= import(this.#controller).catch( e=> {
-				throw new Error( `There is something wrong with controller [${this.#controller}]:\n\n${e}`, );
-			}, );
-			
-			controller= (await importing).default;
-		}
+		let responded, status;
 		
 		try
 		{
-			responded= await controller( { app, request, Response, }, );
+			const controller= await this.getController();
+			
+			responded= await controller( { app, request, Response, args, }, );
 			status= 200;
 		}
 		catch( e )
@@ -116,6 +109,25 @@ export default class Route
 			return responded;
 		
 		return this.#makeResponse( responded, status, );
+	}
+	
+	/**
+	 * get controller
+	 * 
+	 * @return ~{Fundction}
+	 */
+	async getController()
+	{
+		if( this.#controller instanceof Function )
+			return this.#controller;
+		else
+		{
+			const $module= import(this.#controller).catch( e=> {
+				throw new Error( `There is something wrong with controller [${this.#controller}]:\n\n${e}`, );
+			}, );
+			
+			return (await $module).default;
+		}
 	}
 	
 	/**
