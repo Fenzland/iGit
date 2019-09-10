@@ -76,7 +76,7 @@ async function install()
 
 async function copyExecutable()
 {
-	if( Deno.platform.os === 'win' || Deno.platform.os === 'windows' )
+	if( Deno.build.os === 'win' || Deno.build.os === 'windows' )
 		await Deno.copyFile( `${denoDir}/iGit/bin/iGit-dev.bat`, `${denoDir}/bin/iGit.bat`, );
 	else
 		await Deno.copyFile( `${denoDir}/iGit/bin/iGit-dev`, `${denoDir}/bin/iGit`, );
