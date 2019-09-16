@@ -36,3 +36,8 @@ And the command `iGit` will be registered.
 You can run `iGit` under a git repository, and run `iGit --help` to get helps. 
 You can switch version with `git checkout` under the iGit source code directory. 
 You can even modify the source code and try it out immediately. 
+
+### develop schedule
+
+At this moment, iGit is waiting for a UI framework named Butterfly for a better performance. 
+And I'm focus on the Butterfly too. 
