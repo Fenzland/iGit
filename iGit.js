@@ -1,8 +1,7 @@
 import './init.js';
-import { color, } from './app/modules.deno.js';
+import { color, Dragonfly, } from './app/modules.deno.js';
 import Args from './cli/Args.js';
 import Git from './git/Git.js';
-import App from './dragonfly/App.js';
 import router from './app/router.js';
 import { openClient, } from './app/client.js';
 import { renderHelp, renderVersion, } from './app/command-helpers.js';
@@ -27,7 +26,7 @@ import { renderHelp, renderVersion, } from './app/command-helpers.js';
 	
 	const host= args.getOption( 'host', '0.0.0.0:8192', );
 	
-	const app= new App( {
+	const app= new Dragonfly( {
 		router,
 		webRoot: import.meta.url.replace( /^file:\/\/|\/iGit\.js$/g, '', ).replace( /\/([A-Z]:\/)/, '$1', ),
 	}, );

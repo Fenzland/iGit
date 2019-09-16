@@ -1,4 +1,4 @@
-import Router from '../dragonfly/routing/Router.js';
+import { Router, } from './modules.deno.js';
 import home from './controllers/home.js';
 
 export default new Router( {

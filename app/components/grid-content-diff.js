@@ -1,7 +1,7 @@
 import scrollingList from './scrolling-list.js';
 import highLight from './high-light.js';
 import { diffFileOnIndex, } from '../git-data.js';
-import { ext2mime, } from '../../dragonfly/http/mime.js';
+import { ext2mime, } from '../modules.js';
 import { deepAssign, multipleReduce, } from '../modules.js';
 import { move, } from '../mouse-moving.js';
 
