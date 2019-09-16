@@ -30,7 +30,7 @@ export async function openClient( host, { required, }, )
  */
 async function getChromeCommand()
 {
-	if( Deno.platform.os !== 'win' && Deno.platform.os !== 'windows' )
+	if( Deno.build.os !== 'win' && Deno.build.os !== 'windows' )
 		return getLinuxChomeCommand();
 	else
 		return getWindowsChomeCommand();
