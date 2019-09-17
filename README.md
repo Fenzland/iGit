@@ -15,7 +15,7 @@ First of all, you need install [deno](https://github.com/denoland/deno_install) 
 
 iGit requires:
 * git >= 2.18
-* deno >= 0.4
+* deno >= 0.14
 
 Recommand client:
 * Google Chrome >= 74
