@@ -17,7 +17,7 @@ Instead of 'index.js', you can use 'main.js' instead.
 static reference statements, known as `import` or `export from`, 
 must write on the head of a file, without any comments or empty lines before or between them. 
 In other worlds, only shebang line can before static reference statements. 
-There must be a empty line between static statements and other codes. 
+There must be a double empty lines between static statements and other codes. 
 One static statement a line. 
 If there is no static reference, the first line of the file must be a empty line.
 
@@ -187,6 +187,26 @@ Code style standards or guilds should not forbidden trailing whitespace anymore.
 For empty line, the logic level should be kept, so do the indentation. 
 And what's more, non-indent empty line will confuse your git diff. 
 
+
+### for-in
+
+Must not use for-in loop, use for-of Object.keys or Object.entries instead. 
+
+Recommended
+```javascript
+for( const key of Object.keys( object, ) )
+	// ...
+
+for( const [ key, item, ] of Object.entries( object, ) )
+	// ...
+```
+
+Against
+```javascript
+for( const key in object )
+	// ...
+```
+
 ### spaces
 
 #### Editors MUST always show the whitespace characters. 
@@ -252,18 +272,19 @@ foo?foo():bar();
 ```
 
 #### `&&` and `||`
-As logic operator, spaces around. As substitute operator, no space before and a space after.
+As logic operator, spaces around. 
+As substitute operator, no space before and a space after. 
+As condition operator, a space before and no space after. 
 
 Recommended
 ```javascript
-if( isFoo() && hasBar() )
-	foo= getBar()|| makeBar();
+(isFoo() && hasBar()) &&(foo= getBar()|| makeBar());
+
 ```
 
 Against
 ```javascript
-if( isFoo()&&hasBar() )
-	foo= getBar() || makeBar();
+(isFoo()&&hasBar()) &&(foo= getBar() || makeBar());
 ```
 
 #### `if` `for` ...
@@ -334,10 +355,14 @@ function foo( bar, )
 }
 ```
 
-#### add operator
+#### + operator
 Operator `+` is confusing. You will not know the `+` in `a + b` means add or join. 
 So MUST not use `+` as a binary operation. 
-MUST use `a - - b` to add two value, and \`${a}${b}\` to . 
+MUST use `a - - b` to add two value, and \`${a}${b}\` to join two string. 
+
+#### % operator
+This is a mistaken operator from C language.
+So MUST NOT use `%` as mod operator, MUST use a function instead. 
 
 #### type converting
 
