@@ -86,6 +86,7 @@ async function run( ...args )
 {
 	return Deno.run( {
 		args,
+		cmd: args,
 		stdout: 'null',
 		stderr: 'null',
 	}, ).status();
