@@ -14,12 +14,12 @@ Normal file name MUST be not named 'index', 'modules'.
 Instead of 'index.js', you can use 'main.js' instead. 
 
 #### File head
-static reference statements, known as `import` or `export from`, 
+module statements: `import`, `export from` and `export`, 
 must write on the head of a file, without any comments or empty lines before or between them. 
-In other worlds, only shebang line can before static reference statements. 
+In other worlds, only shebang line can before module statements. 
 There must be a double empty lines between static statements and other codes. 
 One static statement a line. 
-If there is no static reference, the first line of the file must be a empty line.
+If there is no module statements, the first line of the file must be a empty line.
 
 Recommended
 ```javascript
@@ -57,10 +57,12 @@ Against
 const foo= 'bar';
 ```
 
-##### static references MUST be ordered
-'export from' must after import.
-You can choose a rule you like. Such as ASCII order, from short to long...
-There MUST be a definite order.
+##### module statements MUST be ordered
+MUST in order:
+* `import url;`
+* `import ... from url;`
+* `export ... from url;`
+* `export {};`
 
 ### ;,
 
@@ -500,24 +502,175 @@ Foo.someStaticMethod= someStaticMethod;
 ```
 
 
-### import and export
-Never use `export let` or `export var`; use `export function getFoo(){}` instead.
-Never use `export {}`; use `export default`, `export class`, `export function`, `export const`, `export from` instead.
+### export
+Never use `export default`, `export class`, `export function`, `export const`, `export from`...
+Only use `export from` and `export {}` in the head. And default export must at the first.
+Never export variables with `let` or `var`; use export getters and setters instead.
+
+Recommended
+```javascript
+export { foo as default, bar, };
+
+const foo= 1;
+const bar= 2;
+```
+
+Against
+```javascript
+
+export default 1;
+export const bar= 2;
+```
+
+Against
+```javascript
+export { bar, foo as default, };
+
+const foo= 1;
+const bar= 2;
+```
+
+### Module type
+
+#### effect file
+not exports anything, has side effects.
+named with barbecue-case.
+
+Imported
+```javascript
+import './foo-bar.js';
+```
+
+#### class file
+exports a class as default, can export other values.
+named the same as the class, FlagCase.
+
+Export
+```javascript
+export { FooBar as default, otherValue, };
+
+const otherValue= 1;
+
+class FooBar
+{}
+```
+
+Imported
+```javascript
+import FooBar from './FooBar.js'; // usually
+import FooBar, { otherValue, } from './FooBar.js'; // usually
+import { default as FooBarClass, } from './FooBar.js';
+
+const { default:FooBar, otherValue, }= await import ('./FooBar.js'); // always
+```
+
+#### function file
+exports a function as default, can export other values.
+named the same as the function, camelCase.
+
+Export
+```javascript
+export { fooBar as default, otherValue, };
+
+const otherValue= 1;
+
+function fooBar()
+{}
+```
+
+Imported
+```javascript
+import fooBar from './fooBar.js'; // usually
+import fooBar, { otherValue, } from './fooBar.js'; // usually
+import { default as fooBarFunction, } from './fooBar.js';
+
+const { default:fooBar, otherValue, }= await import ('./fooBar.js'); // always
+```
+
+#### value file
+exports a main value as default, can export other values.
+named the same as the value, snake_case.
+
+Export
+```javascript
+export { fooBar as default, otherValue, };
+
+const otherValue= 1;
+
+function fooBar()
+{}
+```
+
+Imported
+```javascript
+import fooBar from './fooBar.js'; // usually
+import fooBar, { otherValue, } from './fooBar.js'; // usually
+import { default as fooBarFunction, } from './fooBar.js';
+
+const { default:fooBar, otherValue, }= await import ('./fooBar.js'); // always
+```
+
+#### module file
+export several related entities but no default.
+named with barbecue-case.
+`import * as` usually, as name with FlagCase.
+
+Export
+```javascript
+export { FooBar, otherValue, };
+
+const otherValue= 1;
+
+class FooBar
+{}
+```
+
+Imported
+```javascript
+import * as TheModule from './the-module.js'; // usually
+import { FooBar, otherValue, } from './the-module.js';
+
+const TheModule= await import ('./the-module.js'); // usually
+const { FooBar, otherValue, }= await import ('./the-module.js');
+```
+
+#### value file
+export an main value as default, cannot export other values.
+named with camelCase same as the function.
+
+Export
+```javascript
+export { FooBar, otherValue, };
+
+const otherValue= 1;
+
+class FooBar
+{}
+```
+
+Imported
+```javascript
+import * as TheModule from './the-module.js'; // usually
+import { FooBar, otherValue, } from './the-module.js';
+
+const TheModule= await import ('./the-module.js'); // usually
+const { FooBar, otherValue, }= await import ('./the-module.js');
+```
 
 * class file: `export default class`, named same as the class, FlagCase. 
   use the same name when import, if need to rename, use `{ default as NewName, }`. 
-  not import dinamically. 
+  not import dynamically. 
 
 * module file: without `export default`, named with barbecue-case. 
   splite importing usually. import whole module, use FlagCase. 
-  not import dinamically. 
+  not import dynamically. 
 
 * component file: named with snake_case, 
-  import whole module usually, typically import dinamically, use snake_case with the same name. 
+  import whole module usually, typically import dynamically, use snake_case with the same name. 
 
 * value file: holds values, export one value with default or multiple values. named with camelCase. 
   use camelCase with the same name.
-  when dinamically import, use destructuring assignment always. 
+  when dynamically import, use destructuring assignment always. 
 
 
 
